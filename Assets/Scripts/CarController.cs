@@ -68,12 +68,13 @@ public class CarController : MonoBehaviour
         wheelFL.steerAngle = Input.GetAxis("Horizontal") * steerAngle;
 
         var torque = Input.GetAxis("Vertical") * torqueCurve.Evaluate(WheelRpm / maxRpm) * maxTorque;
+
         wheelFL.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelFR.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelRR.motorTorque = driveMode.HasFlag(DriveMode.Rear) ? torque : 0;
         wheelRL.motorTorque = driveMode.HasFlag(DriveMode.Rear) ? torque : 0;
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetButton("Fire1"))
         {
             print("Break");
             wheelFR.brakeTorque = brakeTorque;
