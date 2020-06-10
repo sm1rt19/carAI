@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ public enum DriveMode
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
 {
+    public CarControllerInput input;
+
     public AnimationCurve torqueCurve;
     public float maxRpm = 1000f;
     public float maxTorque = 1000f;
@@ -23,8 +26,11 @@ public class CarController : MonoBehaviour
     public WheelCollider wheelRR;
     public WheelCollider wheelRL;
 
-    public float steerAngle = 6f;
-    public float brakeTorque = 100f;
+    public float maxSteerAngle = 40f;
+    public float rateSteerAngle = 100f;
+    public float currentSteerAngle;
+    public float targetSteerAngle;
+    public float brakeTorque = 1000f;
 
     public float AntiRoll = 20000.0f;
     public DriveMode driveMode = DriveMode.Rear;
@@ -64,19 +70,23 @@ public class CarController : MonoBehaviour
         DoRollBar(wheelFR, wheelFL);
         DoRollBar(wheelRR, wheelRL);
 
-        wheelFR.steerAngle = Input.GetAxis("Horizontal") * steerAngle;
-        wheelFL.steerAngle = Input.GetAxis("Horizontal") * steerAngle;
+        //wheelFR.steerAngle = input.steering * maxSteerAngle;
+        //wheelFL.steerAngle = wheelFR.steerAngle;
 
-        var torque = Input.GetAxis("Vertical") * torqueCurve.Evaluate(WheelRpm / maxRpm) * maxTorque;
+        targetSteerAngle = input.steering * maxSteerAngle;
+        float deltaSteerAngle = rateSteerAngle * Time.deltaTime;
+        currentSteerAngle = Step(currentSteerAngle, targetSteerAngle, deltaSteerAngle);
+        wheelFR.steerAngle = currentSteerAngle;
+        wheelFL.steerAngle = wheelFR.steerAngle;
 
+        var torque = input.acceleration * torqueCurve.Evaluate(Mathf.Abs(WheelRpm / maxRpm)) * maxTorque;
         wheelFL.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelFR.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelRR.motorTorque = driveMode.HasFlag(DriveMode.Rear) ? torque : 0;
         wheelRL.motorTorque = driveMode.HasFlag(DriveMode.Rear) ? torque : 0;
 
-        if (Input.GetButton("Fire1"))
+        if (input.breaking)
         {
-            print("Break");
             wheelFR.brakeTorque = brakeTorque;
             wheelFL.brakeTorque = brakeTorque;
             wheelRR.brakeTorque = brakeTorque;
@@ -84,7 +94,6 @@ public class CarController : MonoBehaviour
         }
         else
         {
-            print("no Break");
             wheelFR.brakeTorque = 0;
             wheelFL.brakeTorque = 0;
             wheelRR.brakeTorque = 0;
@@ -115,4 +124,27 @@ public class CarController : MonoBehaviour
             rigidbody.AddForceAtPosition(WheelR.transform.up * antiRollForce,
                 WheelR.transform.position);
     }
+
+    private static float Step(float currentValue, float targetValue, float delta)
+    {
+        if (targetValue > currentValue)
+        {
+            delta = Mathf.Min(delta, targetValue - currentValue);
+            currentValue += delta;
+        }
+        if (targetValue < currentValue)
+        {
+            delta = Mathf.Min(delta, currentValue - targetValue);
+            currentValue -= delta;
+        }
+        return currentValue;
+    }
+}
+
+[Serializable]
+public struct CarControllerInput
+{
+    public float steering;
+    public float acceleration;
+    public bool breaking;
 }

@@ -2,28 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CarController))]
 public class PlayerClient : MonoBehaviour
 {
-    private Car car;
+    private CarController controller;
+    public bool ps4;
 
     void Start()
     {
-        car = GetComponent<Car>();
+        controller = GetComponent<CarController>();
     }
 
-    void LateUpdate()
+    void Update()
     {
-        var dx = Input.GetAxisRaw("Horizontal");
-        if (dx != 0)
-            car.Turn(dx);
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (ps4)
         {
-            car.Accelerate();
+            controller.input = new CarControllerInput
+            {
+                acceleration = (Input.GetAxis("PS4 R2") * 0.5f + 0.5f) - (Input.GetAxis("PS4 L2") * 0.5f + 0.5f),
+                steering = Input.GetAxis("PS4 Horizontal"),
+                breaking = Input.GetButton("PS4 Square")
+            };
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else
         {
-            car.Break();
+            controller.input = new CarControllerInput
+            {
+                acceleration = Input.GetAxis("PC Vertical"),
+                steering = Input.GetAxis("PC Horizontal"),
+                breaking = Input.GetButton("PC Space")
+            };
         }
+        
     }
 }

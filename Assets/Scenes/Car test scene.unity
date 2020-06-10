@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 149096491}
   - component: {fileID: 149096492}
   - component: {fileID: 149096490}
+  - component: {fileID: 149096493}
   m_Layer: 0
   m_Name: Car physics +
   m_TagString: Untagged
@@ -168,18 +169,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7bfe2a39bdcddc4391d03f0892e5828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input:
+    steering: 0
+    acceleration: 0
+    breaking: 0
   torqueCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.4
-      inSlope: 2
-      outSlope: 2
+      value: 0.6
+      inSlope: 1.4917898
+      outSlope: 1.4917898
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.08928572
     - serializedVersion: 3
       time: 0.7
       value: 1
@@ -208,7 +213,10 @@ MonoBehaviour:
   wheelFL: {fileID: 1955371681}
   wheelRR: {fileID: 231386343}
   wheelRL: {fileID: 180938039}
-  steerAngle: 30
+  maxSteerAngle: 40
+  rateSteerAngle: 80
+  currentSteerAngle: 0
+  targetSteerAngle: 0
   brakeTorque: 1000
   AntiRoll: 3000
   driveMode: 3
@@ -234,13 +242,26 @@ Rigidbody:
   m_GameObject: {fileID: 149096488}
   serializedVersion: 2
   m_Mass: 1500
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.01
+  m_AngularDrag: 0.01
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &149096493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149096488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2906f7f14478d294aacac0c4bbbbc96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps4: 1
 --- !u!1 &180938037
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +701,7 @@ Transform:
   m_GameObject: {fileID: 372444946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4, y: 1, z: 1.4}
+  m_LocalScale: {x: 4, y: 1, z: 4}
   m_Children:
   - {fileID: 1045876012}
   - {fileID: 899512053}
@@ -1794,7 +1815,7 @@ Transform:
   m_GameObject: {fileID: 1264071042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -16.5, y: -0.01, z: -1.5}
-  m_LocalScale: {x: 24.461138, y: 24.461138, z: 16.398502}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 1331655178}
   m_RootOrder: 0
@@ -2193,7 +2214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611372942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.78, z: 0}
+  m_LocalPosition: {x: 0, y: -0.78, z: -0.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 149096489}
