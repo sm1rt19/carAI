@@ -90,12 +90,12 @@ public class AiClient : MonoBehaviour
                 {
                     inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
                 }
-                inputs[inputs.Length - 2] = carData.turnAngle;
+                inputs[inputs.Length - 2] = carData.rotation;
                 inputs[inputs.Length - 1] = carData.speed / carData.maxSpeed;
             }
             else
             {
-                inputs[0] = carData.turnAngle;
+                inputs[0] = carData.rotation;
                 for (int i = 1; i < inputs.Length - 1; i++)
                 {
                     inputs[i] = sensorData.beamDistances[i - 1] / sensorData.beamMaxDistance;
@@ -110,8 +110,8 @@ public class AiClient : MonoBehaviour
             {
                 inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
-            inputs[inputs.Length - 3] = carData.turnAngle;
-            inputs[inputs.Length - 2] = carData.turnAngle;
+            inputs[inputs.Length - 3] = carData.rotation;
+            inputs[inputs.Length - 2] = carData.rotation;
             inputs[inputs.Length - 1] = carData.speed / carData.maxSpeed;
         }
 

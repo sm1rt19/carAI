@@ -803,7 +803,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75.75494
   orthographic: 0
   orthographic size: 8.028228
   m_Depth: -1
@@ -828,13 +828,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133381917}
-  m_LocalRotation: {x: -0.38813782, y: -0.4493615, z: 0.22563449, w: -0.7723421}
-  m_LocalPosition: {x: -61.576996, y: 40.178978, z: -44.25261}
-  m_LocalScale: {x: 1.0000004, y: 1, z: 1.0000002}
+  m_LocalRotation: {x: -0.36371183, y: -0.6110147, z: 0.3727698, w: -0.59616905}
+  m_LocalPosition: {x: -49.6703, y: 57.795708, z: 1.8668919}
+  m_LocalScale: {x: 1.3582431, y: 1, z: 1.0000002}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 84.258, y: 73.704, z: -6.3320003}
+  m_LocalEulerAnglesHint: {x: 62.773003, y: 91.409004, z: -12.553}
 --- !u!114 &133381921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5521,7 +5521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkTemplate: 61/brain6.4.2.1.txt
-  numberOfAiClients: 30
+  numberOfAiClients: 100
   bestPercentage: 10
   carPrefab: {fileID: 3656502498133730871, guid: 90184e39fc6b3454a9449002ec15fc38,
     type: 3}
@@ -5626,13 +5626,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974925007}
-  m_LocalRotation: {x: -0, y: 0.99873614, z: -0, w: 0.05025979}
+  m_LocalRotation: {x: -0, y: 0.9614113, z: -0, w: 0.2751151}
   m_LocalPosition: {x: -43.1, y: 0.233, z: 40.1}
   m_LocalScale: {x: 4.1902742, y: 0.6303, z: 1.0472434}
   m_Children: []
   m_Father: {fileID: 1350102546}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 64.789, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 148.06201, z: 0}
 --- !u!1 &1999420945
 GameObject:
   m_ObjectHideFlags: 0
