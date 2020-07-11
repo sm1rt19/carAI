@@ -38,7 +38,7 @@ public class AiClient : MonoBehaviour
             float[] output = network.Evaluate(inputs);
             carController.ControllerInput = new CarControllerInput
             {
-                acceleration = Mathf.Clamp(output[1], -1f, 1f),
+                acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
                 breaking = false,
                 turning = Mathf.Clamp(output[0], -1f, 1f)
             };

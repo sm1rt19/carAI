@@ -17,6 +17,7 @@ public class FixedSpeedCarController : MonoBehaviour, ICarController
 
     void FixedUpdate()
     {
+        carData.maxTurnAngle = 40;
         var targetSteerAngle = ControllerInput.turning * carData.maxTurnAngle;
         float deltaSteerAngle = carData.turnAngle * Time.deltaTime;
         carData.turnAngle = Utilities.Step(carData.turnAngle, targetSteerAngle, deltaSteerAngle);

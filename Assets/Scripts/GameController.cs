@@ -88,6 +88,8 @@ public class GameController : MonoBehaviour
                     input += input3;
                     //input -= input4;
                 }
+
+                input = aiClients[i].carController.CarData.distanceDriven;
                 networkTrainer.TeamCarsten.Drivers[i].Evaluate(input);
             }
             networkTrainer.Write();
