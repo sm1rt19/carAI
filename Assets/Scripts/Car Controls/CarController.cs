@@ -70,12 +70,12 @@ public class CarController : MonoBehaviour
         DoRollBar(wheelFR, wheelFL);
         DoRollBar(wheelRR, wheelRL);
 
-        //wheelFR.steerAngle = input.steering * maxSteerAngle;
+        //wheelFR.steerAngle = input.turning * maxSteerAngle;
         //wheelFL.steerAngle = wheelFR.steerAngle;
 
-        targetSteerAngle = input.steering * maxSteerAngle;
+        targetSteerAngle = input.turning * maxSteerAngle;
         float deltaSteerAngle = rateSteerAngle * Time.deltaTime;
-        currentSteerAngle = Step(currentSteerAngle, targetSteerAngle, deltaSteerAngle);
+        currentSteerAngle = Utilities.Step(currentSteerAngle, targetSteerAngle, deltaSteerAngle);
         wheelFR.steerAngle = currentSteerAngle;
         wheelFL.steerAngle = wheelFR.steerAngle;
 
@@ -125,26 +125,5 @@ public class CarController : MonoBehaviour
                 WheelR.transform.position);
     }
 
-    private static float Step(float currentValue, float targetValue, float delta)
-    {
-        if (targetValue > currentValue)
-        {
-            delta = Mathf.Min(delta, targetValue - currentValue);
-            currentValue += delta;
-        }
-        if (targetValue < currentValue)
-        {
-            delta = Mathf.Min(delta, currentValue - targetValue);
-            currentValue -= delta;
-        }
-        return currentValue;
-    }
-}
-
-[Serializable]
-public struct CarControllerInput
-{
-    public float steering;
-    public float acceleration;
-    public bool breaking;
+    
 }

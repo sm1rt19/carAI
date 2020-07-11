@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CarstensDrivingSchool
+public class NeuralNetworkTrainer
 {
     public Team TeamCarsten;
     public int Lessons;
@@ -19,7 +19,7 @@ public class CarstensDrivingSchool
     private string ExpertDriver;
     private System.Random Rand = new System.Random();
 
-    public CarstensDrivingSchool(string brain, int size, float bestpercentage = 10f)
+    public NeuralNetworkTrainer(string brain, int size, float bestpercentage = 10f)
     {
         Lessons = 0;
         BestPercentage = bestpercentage;
