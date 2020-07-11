@@ -12,17 +12,20 @@ public class FixedSpeedCarController : MonoBehaviour, ICarController
 
     public void Start()
     {
-        carData.speed = 10;
+        carData.speed = 20;
+        carData.maxSpeed = 50;
+        carData.rotation = 0;
+        carData.maxRotation = 20;
+        carData.rateRotation = 200;
     }
 
     void FixedUpdate()
     {
-        carData.maxTurnAngle = 40;
-        var targetSteerAngle = ControllerInput.turning * carData.maxTurnAngle;
-        float deltaSteerAngle = carData.turnAngle * Time.deltaTime;
-        carData.turnAngle = Utilities.Step(carData.turnAngle, targetSteerAngle, deltaSteerAngle);
+        float targetRotation = ControllerInput.turning * carData.maxRotation;
+        float deltaRotation = carData.rateRotation * Time.deltaTime;
+        carData.rotation = Utilities.Step(carData.rotation, targetRotation, deltaRotation);
 
-        transform.Rotate(new Vector3(0, carData.turnAngle, 0));
+        transform.Rotate(new Vector3(0, carData.rotation, 0));
         var distance = carData.speed * Time.deltaTime;
         transform.Translate(Vector3.forward * distance, Space.Self);
         carData.distanceDriven += distance;

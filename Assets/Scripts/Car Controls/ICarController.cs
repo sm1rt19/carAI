@@ -23,7 +23,9 @@ public struct CarData
 {
     public float speed;
     public float maxSpeed;
-    public float turnAngle;
-    public float maxTurnAngle;
+    public float rotation;
+    public float maxRotation;
+    public float rateRotation;
+
     public float distanceDriven;
 }
