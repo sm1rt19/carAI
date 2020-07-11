@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     public Transform startLocation;
     private AiClient[] aiClients;
 
-    void Start()
+    void Awake()
     {
         networkTrainer = new NeuralNetworkTrainer(networkTemplate, numberOfAiClients, bestPercentage);
         CreateAiClients();

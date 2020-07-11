@@ -670,13 +670,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133381917}
-  m_LocalRotation: {x: -0.36371183, y: -0.6110147, z: 0.3727698, w: -0.59616905}
-  m_LocalPosition: {x: -49.6703, y: 57.795708, z: 1.8668919}
+  m_LocalRotation: {x: -0.38801455, y: -0.39084032, z: 0.18554284, w: -0.8137951}
+  m_LocalPosition: {x: -66.186676, y: 45.34235, z: -23.60634}
   m_LocalScale: {x: 1.3582431, y: 1, z: 1.0000002}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 62.773003, y: 91.409004, z: -12.553}
+  m_LocalEulerAnglesHint: {x: 77.128006, y: 92.895004, z: 1.5690001}
 --- !u!114 &133381921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,14 +684,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133381917}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b658814c55e08e441ac4db7b949c9c2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e1a8de773eb4b2498bbb163116585ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionOffset: {x: 0, y: 0, z: 0}
-  lookOffset: {x: 0, y: 0, z: 0}
-  stiffness: 0.1
+  stiffness: 0.7
+  PositionOffset: {x: -10, y: 40, z: -20}
 --- !u!1001 &139953442
 PrefabInstance:
   m_ObjectHideFlags: 0
