@@ -19,7 +19,6 @@ public class UiController : MonoBehaviour
     public Text BestScoreText;
     public Text ImprovementText;
 
-    private LinkedList<float> RecentImprovements = new LinkedList<float>();
     private float? lastScore;
 
     void Start()
@@ -97,13 +96,7 @@ public class UiController : MonoBehaviour
 
         if (lastScore.HasValue)
         {
-            if (RecentImprovements.Count >= 5)
-            {
-                RecentImprovements.RemoveLast();
-            }
-            RecentImprovements.AddFirst(bestScore - lastScore.Value);
-
-            var improvement = RecentImprovements.Average(x => x);
+            var improvement = bestScore - lastScore.Value;
             if (improvement < 0)
             {
                 ImprovementText.color = new Color(0.87f, 0.24f, 0.14f);

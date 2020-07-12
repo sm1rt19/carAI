@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         if (completedRound)
             score = 10000 - time;
         else
-            score = distance;
+            score = distance / time;
         networkTrainer.Drivers[id].Score = score;
         aiClients[id].gameObject.SetActive(false);
         trainingAis--;
@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (trainingAis == 0)
+        if (aiClients.All(x => !x.gameObject.activeSelf))
         {
             IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score));
             networkTrainer.Write();

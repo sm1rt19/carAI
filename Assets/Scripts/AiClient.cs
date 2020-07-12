@@ -32,7 +32,12 @@ public class AiClient : MonoBehaviour
         if (network != null)
         {
             var timeAlive = Time.time - startTime;
-            if (checkSpeed && carController.carData.speed < 2)
+            if (checkSpeed && carController.carData.speed < 5)
+            {
+                drivingTestCompleted.Invoke(id, false, timeAlive, carController.carData.distanceDriven);
+            }
+
+            if (carController.carData.speed < 0)
             {
                 drivingTestCompleted.Invoke(id, false, timeAlive, carController.carData.distanceDriven);
             }
@@ -46,7 +51,7 @@ public class AiClient : MonoBehaviour
             float[] output = network.Evaluate(inputs);
             carController.controllerInput = new CarControllerInput
             {
-                vertical = output.Length > 1 ? output[1] : 1, // Mathf.Clamp(output[1], -1f, 1f),
+                vertical = output.Length > 1 ? output[1] : -1000, // Mathf.Clamp(output[1], -1f, 1f),
                 breaking = false,
                 horizontal = output[0]
             };
@@ -65,8 +70,8 @@ public class AiClient : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        var completed = collision.collider.CompareTag("Goal line");
         var timeAlive = Time.time - startTime;
+        var completed = collision.collider.CompareTag("Goal line") && timeAlive > 10f;
         drivingTestCompleted.Invoke(id, completed, timeAlive, carController.carData.distanceDriven);
     }
 

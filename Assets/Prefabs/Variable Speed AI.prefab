@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d16b98046fe67429cbd8af46b54b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beamMaxDistance: 20
+  beamMaxDistance: 35
   speed: 0
   angleToCheckpoint: 0
   beamDistances: []
@@ -996,13 +996,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerInput:
-    turning: 0
-    acceleration: 0
+    horizontal: 0
+    vertical: 0
     breaking: 0
   carStats:
     acceleration: 3
     maxSpeed: 30
-    maxRotation: 2
+    maxRotation: 1.5
     rateRotation: 15
   carData:
     speed: 0

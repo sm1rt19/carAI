@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 public abstract class CarControllerBase : MonoBehaviour
 {
-    [HideInInspector]
     public CarControllerInput controllerInput;
 
     public CarStats carStats;
