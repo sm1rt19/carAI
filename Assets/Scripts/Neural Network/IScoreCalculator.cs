@@ -13,7 +13,7 @@ public class SimpleScoreCalculator : IScoreCalculator
 {
     public float CalculateScore(AiClient client)
     {
-        return client.carController.CarData.distanceDriven * 10;
+        return client.carController.carData.distanceDriven * 10;
     }
 }
 
@@ -21,6 +21,6 @@ public class AdvancedScoreCalculator : IScoreCalculator
 {
     public float CalculateScore(AiClient client)
     {
-        return client.carController.CarData.distanceDriven * 10 + 5;
+        return client.carController.carData.distanceDriven * 10 + 5;
     }
 }

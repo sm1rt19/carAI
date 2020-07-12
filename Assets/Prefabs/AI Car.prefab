@@ -291,7 +291,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3656502498133730870}
-  - component: {fileID: 3656502498133730865}
   - component: {fileID: 858727853}
   - component: {fileID: 6239291567592181168}
   - component: {fileID: 4797039014445324749}
@@ -319,34 +318,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -102.108, z: 0}
---- !u!114 &3656502498133730865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656502498133730871}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa75414696c9b4458b2486df26feed9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 0.5
-  startSpeed: 20
-  maxSpeed: 80
-  minSpeed: 10
-  breaks: 0.5
-  handling: 1
-  rate: 0
-  speed: 0
-  turn: 0
-  deaccelleration: 0.02
-  timeAliveMax: 60
-  timeAlive: 0
-  distanceDriven: 0
-  scoreAccelerate: 0
-  scoreDecelerate: 0
-  secondsAlive: 0
 --- !u!114 &858727853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +335,7 @@ MonoBehaviour:
       m_Calls: []
   carController: {fileID: 2208517602216607483}
   sensorData: {fileID: 3656502498516370303}
-  timeAliveMax: 30
+  timeAliveMax: 60
 --- !u!65 &6239291567592181168
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -406,6 +377,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb9b4ffa744f824bbfffa1824b2afdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllerInput:
+    turning: 0
+    acceleration: 0
+    breaking: 0
+  carStats:
+    maxSpeed: 20
+    maxRotation: 40
+    rateRotation: 5
+  carData:
+    speed: 0
+    rotation: 0
+    distanceDriven: 0
 --- !u!1 &3656502498146597548
 GameObject:
   m_ObjectHideFlags: 0

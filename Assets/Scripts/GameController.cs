@@ -1,15 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+
+[Serializable]
+public class IterationCompleteEvent : UnityEvent<int, float> { }
 
 public class GameController : MonoBehaviour
 {
+    public IterationCompleteEvent IterationCompleted = new IterationCompleteEvent();
+
     public string folder;
     public string template;
     public int numberOfAiClients;
     private NeuralNetworkTrainer networkTrainer;
     public float bestPercentage;
+    [Range(0, 25)]
     public float randParameter;
 
 
@@ -19,7 +27,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage, randParameter);
+        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage);
         CreateAiClients();
         ResetAiClients();
     }
@@ -50,52 +58,14 @@ public class GameController : MonoBehaviour
     {
         if (aiClients.All(car => !car.gameObject.activeSelf))
         {
-            print("Dead");
-            //float speedMax = 0;
-            //float speedMin = 1000;
-            //for (int j = 0; j < aiClients.Count; j++)
-            //{
-            //    float speedAvg = aiClients[j].GetComponent<Car>().distanceDriven / aiClients[j].GetComponent<Car>().timeAlive;
-            //    if (speedAvg > speedMax)
-            //    {
-            //        speedMax = speedAvg;
-            //    }
-            //    if (speedAvg < speedMin)
-            //    {
-            //        speedMin = speedAvg;
-            //    }
-            //}
-
             for (int i = 0; i < aiClients.Length; i++)
             {
-                float timeAlive = aiClients[i].GetComponent<Car>().timeAlive;
-                float distanceDriven = aiClients[i].GetComponent<Car>().distanceDriven;
-                float speedAvg = distanceDriven / (timeAlive + 0.001f);
-                float timeRatio = (aiClients[i].GetComponent<Car>().timeAliveMax - timeAlive) / aiClients[i].GetComponent<Car>().timeAliveMax;
-                float scoreAccelerate = aiClients[i].GetComponent<Car>().scoreAccelerate;
-                float scoreDecelerate = aiClients[i].GetComponent<Car>().scoreDecelerate;
-
-                float input;
-                if (true)
-                {
-                    float input1 = distanceDriven;
-                    //
-                    float input2 = speedAvg;
-                    float input3 = scoreAccelerate;
-                    //
-                    //float input4 = 0f;
-                    float input4 = scoreDecelerate;
-                    
-                    input = input1 + input2;
-                    input += input3;
-                    //input -= input4;
-                }
-
-                input = aiClients[i].carController.CarData.distanceDriven;
+                var input = aiClients[i].carController.carData.distanceDriven;
                 networkTrainer.Drivers[i].Score = input;
             }
+            IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score));
             networkTrainer.Write();
-            networkTrainer.Train();
+            networkTrainer.Train(randParameter);
             ResetAiClients();
         }
     }

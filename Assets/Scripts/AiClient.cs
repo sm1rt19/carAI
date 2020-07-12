@@ -36,7 +36,7 @@ public class AiClient : MonoBehaviour
 
                 var inputs = GetNetworkInputs();
             float[] output = network.Evaluate(inputs);
-            carController.ControllerInput = new CarControllerInput
+            carController.controllerInput = new CarControllerInput
             {
                 acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
                 breaking = false,
@@ -47,12 +47,10 @@ public class AiClient : MonoBehaviour
 
     public void Restart(Transform startLocation, NeuralNetwork network)
     {
+        carController.ResetCar(startLocation);
         this.network = network;
-        transform.position = startLocation.position;
-        transform.rotation = startLocation.rotation;
         gameObject.SetActive(true);
         startTime = Time.time;
-
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -62,7 +60,8 @@ public class AiClient : MonoBehaviour
 
     private float[] GetNetworkInputs()
     {
-        var carData = carController.CarData;
+        var carData = carController.carData;
+        var carStats = carController.carStats;
         float[] inputs = new float[network.Structure[0]];
         if (network.Structure[0] == 6)
         {
@@ -79,7 +78,7 @@ public class AiClient : MonoBehaviour
             {
                 inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
-            inputs[inputs.Length - 1] = carData.speed / carData.maxSpeed;
+            inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
         }
         if (network.Structure[0] == 8)
         {
@@ -91,7 +90,7 @@ public class AiClient : MonoBehaviour
                     inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
                 }
                 inputs[inputs.Length - 2] = carData.rotation;
-                inputs[inputs.Length - 1] = carData.speed / carData.maxSpeed;
+                inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
             }
             else
             {
@@ -100,7 +99,7 @@ public class AiClient : MonoBehaviour
                 {
                     inputs[i] = sensorData.beamDistances[i - 1] / sensorData.beamMaxDistance;
                 }
-                inputs[inputs.Length - 2] = carData.speed / carData.maxSpeed;
+                inputs[inputs.Length - 2] = carData.speed / carStats.maxSpeed;
             }
         }
         if (network.Structure[0] == 9)
@@ -112,7 +111,7 @@ public class AiClient : MonoBehaviour
             }
             inputs[inputs.Length - 3] = carData.rotation;
             inputs[inputs.Length - 2] = carData.rotation;
-            inputs[inputs.Length - 1] = carData.speed / carData.maxSpeed;
+            inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
         }
 
         return inputs;
