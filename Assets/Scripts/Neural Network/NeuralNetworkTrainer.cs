@@ -29,7 +29,7 @@ public class NeuralNetworkTrainer
         for (int i = 0; i < size; i++)
         {
             string path = folder + template;
-            Driver driver = new Driver(path, i, 0, 0, Rand);
+            Driver driver = new Driver(path, i, 0, 0f, Rand);
             Drivers.Add(driver);
         }
     }
@@ -49,22 +49,24 @@ public class NeuralNetworkTrainer
         {
             Driver JamesHunt = Drivers[Rand.Next(0, bestDrivers)];
             Driver NikiLauda = Drivers[Rand.Next(0, bestDrivers)];
-            Driver AyrtonSenna = new Driver(Folder + Template, id, Sessions, 0, Rand);
+            Driver AyrtonSenna = new Driver(Folder + Template, id, Sessions, 0f, Rand);
             for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
             {
                 for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
                 {
                     for (int k = 0; k < AyrtonSenna.Brain.Layers[i].Nodes[j].Weights.Length; k++)
                     {
-                        if (k < (int)(AyrtonSenna.Brain.Layers[i].Nodes[j].Weights.Length / 2))
+                        float weight;
+                        if (Rand.NextDouble() < 0.5f)
                         {
-                            AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = JamesHunt.Brain.Layers[i].Nodes[j].Weights[k];
+                            weight = JamesHunt.Brain.Layers[i].Nodes[j].Weights[k];
                         }
                         else
                         {
-                            AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
+                            weight = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
                         }
-                        AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] *= (float)((Rand.NextDouble() * 2 - 1) * randomness);
+                        weight *= (float)((Rand.NextDouble() * 2f - 1f) * randomness);
+                        AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
                     }
                 }
             }
@@ -75,7 +77,7 @@ public class NeuralNetworkTrainer
 
     private int Best()
     {
-        float best = 0;
+        float best = 0f;
         int index = 0;
         for (int i = 0; i < Size; i++)
         {
@@ -127,6 +129,11 @@ public class Driver
         }
     }
 
+    //public void Update(int i, int j, int k, float weight)
+    //{
+    //    Brain.Layers[i].Nodes[j].Weights[k] = weight;
+    //}
+
     private void Initialize(System.Random rand)
     {
         foreach (Layer layer in Brain.Layers)
@@ -135,7 +142,7 @@ public class Driver
             {
                 for (int j = 0; j < node.Weights.Length; j++)
                 {
-                    node.Weights[j] = (float)((rand.NextDouble() * 2 - 1) * 0.2);
+                    node.Weights[j] = (float)((rand.NextDouble() * 2f - 1f) * 0.4f);
                 }
             }
         }

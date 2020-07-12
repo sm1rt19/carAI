@@ -35,13 +35,13 @@ public class AiClient : MonoBehaviour
                 gameObject.SetActive(false);
             }
 
-                var inputs = GetNetworkInputs();
+            float[] inputs = GetNetworkInputs();
             float[] output = network.Evaluate(inputs);
             carController.controllerInput = new CarControllerInput
             {
                 acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
                 breaking = false,
-                turning = Mathf.Clamp(output[0], -1f, 1f)
+                turning = output[0]
             };
         }
     }
