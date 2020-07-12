@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NeuralNetwork
 {
+    public int Sessions;
     public int[] Structure;
     public Layer[] Layers;
 
@@ -17,6 +18,8 @@ public class NeuralNetwork
     {
         string[] lines = File.ReadAllLines(path);
         string[] values = lines[0].Split(' ');
+        Sessions = int.Parse(values[0]);
+        values = lines[1].Split(' ');
         Structure = new int[values.Length];
         for (int i = 0; i < values.Length; i++)
         {
@@ -27,7 +30,7 @@ public class NeuralNetwork
         {
             Layers[i] = new Layer(int.Parse(values[i + 1]), i);
         }
-        for (int i = 1; i < lines.Length; i++)
+        for (int i = 2; i < lines.Length; i++)
         {
             values = lines[i].Split(' ');
             int layerId = int.Parse(values[0]);
@@ -45,6 +48,9 @@ public class NeuralNetwork
     {
         List<string> lines = new List<string>();
         string line = "";
+        line += Sessions;
+        lines.Add(line.Trim());
+        line = "";
         for (int i = 0; i < Structure.Length; i++)
         {
             line += Structure[i] + " ";

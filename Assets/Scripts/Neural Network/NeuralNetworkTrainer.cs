@@ -1,6 +1,7 @@
 ﻿// =============================================================================================================
 // Carstens Driving School :-)
 // =============================================================================================================
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,43 +9,49 @@ using UnityEngine;
 
 public class NeuralNetworkTrainer
 {
-    public Team TeamCarsten;
+    public int size;
+    public List<Driver> Drivers = new List<Driver>();
     public int Lessons;
     public List<Data> Data;
     public float BestPercentage;
-    private readonly string DrivingSchool = "Carstens Driving School/";
-    private readonly string RookieTeam = "Rookie Drivers/";
-    private readonly string ExpertTeam = "Expert Drivers/";
-    private string RookieDriver;
-    private string ExpertDriver;
-    private System.Random Rand = new System.Random();
+    private string folder;
+    private string template;
+    private readonly System.Random Rand = new System.Random();
 
-    public NeuralNetworkTrainer(string brain, int size, float bestpercentage = 10f)
+    public NeuralNetworkTrainer(string folder, string template, int size, float bestpercentage = 10f)
     {
+        this.folder = folder;
+        this.template = template;
+        this.size = size;
         Lessons = 0;
         BestPercentage = bestpercentage;
-        ExpertTeam = DrivingSchool + ExpertTeam + System.DateTime.Now.ToString("yyyy-MM-dd HH.mm") + "/";
-        System.IO.Directory.CreateDirectory(ExpertTeam);
-        RookieDriver = DrivingSchool + RookieTeam + brain;
-        TeamCarsten = new Team(RookieDriver, size);
+
+
+        for (int i = 0; i < size; i++)
+        {
+            string path = folder + template;
+            Driver driver = new Driver(path, i, 0, 0, Rand);
+            driver.Lessons = driver.Brain.Sessions;
+            Drivers.Add(driver);
+        }
     }
 
     public void Lesson()
     {
         Lessons++;
-        int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(BestPercentage / 100f * (float)TeamCarsten.Size));
-        TeamCarsten.Drivers = TeamCarsten.Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
-        for (int i = 0; i < TeamCarsten.Drivers.Count; i++)
+        int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(BestPercentage / 100f * (float)size));
+        Drivers = Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
+        for (int i = 0; i < Drivers.Count; i++)
         {
-            TeamCarsten.Drivers[i].Id = i;
-            TeamCarsten.Drivers[i].Lessons = Lessons;
+            Drivers[i].Id = i;
+            Drivers[i].Lessons = Lessons;
         }
         int id = bestDrivers;
-        while (id < TeamCarsten.Size)
+        while (id < size)
         {
-            Driver JamesHunt = TeamCarsten.Drivers[Rand.Next(0, bestDrivers)];
-            Driver NikiLauda = TeamCarsten.Drivers[Rand.Next(0, bestDrivers)];
-            Driver AyrtonSenna = new Driver(RookieDriver, id, Lessons);
+            Driver JamesHunt = Drivers[Rand.Next(0, bestDrivers)];
+            Driver NikiLauda = Drivers[Rand.Next(0, bestDrivers)];
+            Driver AyrtonSenna = new Driver(folder + template, id, Lessons, 0, Rand);
             for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
             {
                 for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
@@ -63,7 +70,7 @@ public class NeuralNetworkTrainer
                     }
                 }
             }
-            TeamCarsten.Drivers.Add(AyrtonSenna);
+            Drivers.Add(AyrtonSenna);
             id++;
         }
     }
@@ -72,11 +79,11 @@ public class NeuralNetworkTrainer
     {
         float best = 0;
         int index = 0;
-        for (int i = 0; i < TeamCarsten.Size; i++)
+        for (int i = 0; i < size; i++)
         {
-            if (TeamCarsten.Drivers[i].Score > best)
+            if (Drivers[i].Score > best)
             {
-                best = TeamCarsten.Drivers[i].Score;
+                best = Drivers[i].Score;
                 index = i;
             }
         }
@@ -85,50 +92,14 @@ public class NeuralNetworkTrainer
 
     public void Write()
     {
-        Write(TeamCarsten.Drivers[Best()]);
+        Write(Drivers[Best()]);
     }
 
     public void Write(Driver driver)
     {
-        ExpertDriver = ExpertTeam;
-        //ExpertDriver += (driver.Score < 1 ? "score0" : "score") + (int)driver.Score;
-        ExpertDriver += (driver.Lessons < 10 ? "lessons0" : "lessons") + driver.Lessons;
-        ExpertDriver += (driver.Id < 10 ? "driver0" : "driver") + driver.Id;
-        ExpertDriver += RookieDriver.Substring(RookieDriver.IndexOf("brain"));
-        driver.Brain.Write(ExpertDriver);
-    }
-}
-
-public class Team
-{
-    public int Size;
-    public List<Driver> Drivers = new List<Driver>();
-    private System.Random Rand = new System.Random();
-
-    public Team(string path, int size)
-    {
-        Size = size;
-        for (int i = 0; i < Size; i++)
-        {
-            Driver driver = new Driver(path, i);
-            Initialize(driver);
-            Drivers.Add(driver);
-        }
-    }
-
-    private void Initialize(Driver driver)
-    {
-        foreach (Layer layer in driver.Brain.Layers)
-        {
-            foreach (Node node in layer.Nodes)
-            {
-                for (int j = 0; j < node.Weights.Length; j++)
-                {
-                    node.Weights[j] = (float)(Rand.NextDouble() * 0.4 - 0.2);
-                }
-            }
-        }
-
+        string path = folder + "current" + template.Substring(template.IndexOf("."));
+        driver.Brain.Sessions = driver.Lessons;
+        driver.Brain.Write(path);
     }
 }
 
@@ -139,17 +110,30 @@ public class Driver
     public float Score;
     public NeuralNetwork Brain;
 
-    public Driver(string brain, int id, int lessons = 0, float score = 0)
+    public Driver(string brain, int id, int lessons, float score, System.Random random)
     {
         Id = id;
         Lessons = lessons;
         Score = score;
         Brain = new NeuralNetwork(brain);
+        if (Lessons == 0)
+        {
+            Initialize(random);
+        }
     }
 
-    public void Evaluate(float input)
+    private void Initialize(System.Random random)
     {
-        Score = 1000 * input;
+        foreach (Layer layer in Brain.Layers)
+        {
+            foreach (Node node in layer.Nodes)
+            {
+                for (int j = 0; j < node.Weights.Length; j++)
+                {
+                    node.Weights[j] = (float)(random.NextDouble() * 0.4 - 0.2);
+                }
+            }
+        }
     }
 }
 

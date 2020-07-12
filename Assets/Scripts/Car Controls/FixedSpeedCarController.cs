@@ -15,8 +15,8 @@ public class FixedSpeedCarController : MonoBehaviour, ICarController
         carData.speed = 20;
         carData.maxSpeed = 50;
         carData.rotation = 0;
-        carData.maxRotation = 20;
-        carData.rateRotation = 200;
+        carData.maxRotation = 40;
+        carData.rateRotation = 400;
     }
 
     void FixedUpdate()

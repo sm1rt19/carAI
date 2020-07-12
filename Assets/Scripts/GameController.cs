@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public string networkTemplate; // "92/brain9.9.9.7.2.txt"
+    public string folder;
+    public string template;
     public int numberOfAiClients;
     private NeuralNetworkTrainer networkTrainer;
     public float bestPercentage;
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        networkTrainer = new NeuralNetworkTrainer(networkTemplate, numberOfAiClients, bestPercentage);
+        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage);
         CreateAiClients();
         ResetAiClients();
     }
@@ -39,7 +40,7 @@ public class GameController : MonoBehaviour
     {
         for (int i = 0; i < numberOfAiClients; i++)
         {
-            aiClients[i].Restart(startLocation, networkTrainer.TeamCarsten.Drivers[i].Brain);
+            aiClients[i].Restart(startLocation, networkTrainer.Drivers[i].Brain);
         }
     }
 
@@ -90,7 +91,7 @@ public class GameController : MonoBehaviour
                 }
 
                 input = aiClients[i].carController.CarData.distanceDriven;
-                networkTrainer.TeamCarsten.Drivers[i].Evaluate(input);
+                networkTrainer.Drivers[i].Score = input;
             }
             networkTrainer.Write();
             networkTrainer.Lesson();
