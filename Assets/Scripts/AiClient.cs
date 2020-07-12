@@ -6,14 +6,13 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class DrivingTestCompletedEvent : UnityEvent<float>
-{
-}
+public class DrivingTestCompletedEvent : UnityEvent<int, bool, float, float> { }
 
 public class AiClient : MonoBehaviour
 {
     public DrivingTestCompletedEvent drivingTestCompleted = new DrivingTestCompletedEvent();
 
+    public int id;
     public FixedSpeedCarController carController;
     public SensorData sensorData;
     public NeuralNetwork network;
@@ -32,15 +31,11 @@ public class AiClient : MonoBehaviour
             var timeAlive = Time.time - startTime;
             if (timeAlive > timeAliveMax)
             {
-                gameObject.SetActive(false);
+                drivingTestCompleted.Invoke(id, false, timeAlive, carController.carData.distanceDriven);
             }
 
             float[] inputs = GetNetworkInputs();
             float[] output = network.Evaluate(inputs);
-
-            if (Mathf.Abs(output[0]) > 0.1)
-                print(output[0]);
-
             carController.controllerInput = new CarControllerInput
             {
                 acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
@@ -60,7 +55,9 @@ public class AiClient : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        gameObject.SetActive(false);
+        var completed = collision.collider.CompareTag("Goal line");
+        var timeAlive = Time.time - startTime;
+        drivingTestCompleted.Invoke(id, completed, timeAlive, carController.carData.distanceDriven);
     }
 
     private float[] GetNetworkInputs()

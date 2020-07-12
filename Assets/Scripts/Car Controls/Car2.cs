@@ -53,7 +53,6 @@ public class Car2 : MonoBehaviour
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxisRaw("Speeder");
 
-        print("InputY = " + inputY);
         Steer();
         Accelerate();
 

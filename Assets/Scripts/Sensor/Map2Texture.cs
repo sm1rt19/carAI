@@ -61,11 +61,6 @@ public class Map2Texture : MonoBehaviour
                 SurfaceArray[u, v] = type;
                 var color = GetColorForSurfaceType(type);
                 texture.SetPixel(u, v, color);
-
-                if (u % 200 == 0 && v % 200 == 0)
-                {
-                    print($"{u} {v} = {worldPos}");
-                }
             }
         }
     }
