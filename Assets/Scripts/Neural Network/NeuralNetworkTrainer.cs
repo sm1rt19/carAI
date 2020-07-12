@@ -31,7 +31,6 @@ public class NeuralNetworkTrainer
         {
             string path = folder + template;
             Driver driver = new Driver(path, i, 0, 0, Rand);
-            driver.Lessons = driver.Brain.Sessions;
             Drivers.Add(driver);
         }
     }
@@ -110,15 +109,22 @@ public class Driver
     public float Score;
     public NeuralNetwork Brain;
 
-    public Driver(string brain, int id, int lessons, float score, System.Random random)
+    public Driver(string path, int id, int lessons, float score, System.Random random)
     {
         Id = id;
-        Lessons = lessons;
         Score = score;
-        Brain = new NeuralNetwork(brain);
-        if (Lessons == 0)
+        Brain = new NeuralNetwork(path);
+        if (lessons > 0)
         {
-            Initialize(random);
+            Lessons = lessons;
+        }
+        else
+        {
+            Lessons = Brain.Sessions;
+            if (Lessons == 0)
+            {
+                Initialize(random);
+            }
         }
     }
 
