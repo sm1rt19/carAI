@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class NeuralNetwork
@@ -50,11 +51,7 @@ public class NeuralNetwork
         string line = "";
         line += Sessions;
         lines.Add(line.Trim());
-        line = "";
-        for (int i = 0; i < Structure.Length; i++)
-        {
-            line += Structure[i] + " ";
-        }
+        line = string.Join(" ", Structure);
         lines.Add(line.Trim());
         for (int i = 0; i < Layers.Length; i++)
         {
@@ -74,9 +71,9 @@ public class NeuralNetwork
     public float[] Evaluate(float[] inputs)
     {
         float[] output = inputs;
-        for (int i = 0; i < Layers.Length; i++)
+        foreach (var layer in Layers)
         {
-            output = Layers[i].Evaluate(output);
+            output = layer.Evaluate(output);
         }
         //for (int i = 0; i < output.Length; i++)
         //{

@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public int numberOfAiClients;
     private NeuralNetworkTrainer networkTrainer;
     public float bestPercentage;
+    public float randParameter;
 
 
     public GameObject carPrefab;
@@ -18,7 +19,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage);
+        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage, randParameter);
         CreateAiClients();
         ResetAiClients();
     }
@@ -94,7 +95,7 @@ public class GameController : MonoBehaviour
                 networkTrainer.Drivers[i].Score = input;
             }
             networkTrainer.Write();
-            networkTrainer.Lesson();
+            networkTrainer.Train();
             ResetAiClients();
         }
     }
