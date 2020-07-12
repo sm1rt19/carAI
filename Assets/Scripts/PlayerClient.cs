@@ -5,19 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(CarController))]
 public class PlayerClient : MonoBehaviour
 {
-    private CarController controller;
-    public bool ps4;
+    public CarControllerBase CarController;
 
-    void Start()
-    {
-        controller = GetComponent<CarController>();
-    }
 
     void Update()
     {
+        var ps4 = false;
         if (ps4)
         {
-            controller.input = new CarControllerInput
+            CarController.controllerInput = new CarControllerInput
             {
                 acceleration = (Input.GetAxis("PS4 R2") * 0.5f + 0.5f) - (Input.GetAxis("PS4 L2") * 0.5f + 0.5f),
                 turning = Input.GetAxis("PS4 Horizontal"),
@@ -26,7 +22,7 @@ public class PlayerClient : MonoBehaviour
         }
         else
         {
-            controller.input = new CarControllerInput
+            CarController.controllerInput = new CarControllerInput
             {
                 acceleration = Input.GetAxis("PC Vertical"),
                 turning = Input.GetAxis("PC Horizontal"),

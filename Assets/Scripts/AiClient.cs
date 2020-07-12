@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -65,11 +66,7 @@ public class AiClient : MonoBehaviour
         float[] inputs = new float[network.Structure[0]];
         if (network.Structure[0] == 6)
         {
-            inputs = sensorData.beamDistances;
-            for (int i = 0; i < inputs.Length - 1; i++)
-            {
-                inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
-            }
+            inputs = sensorData.beamDistances.Select(x => x / sensorData.beamMaxDistance).ToArray();
         }
         if (network.Structure[0] == 7)
         {

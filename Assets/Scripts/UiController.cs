@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,8 @@ public class UiController : MonoBehaviour
     public Text BestScoreText;
     public Text ImprovementText;
 
-    private LinkedList<float> RecentScores = new LinkedList<float>();
+    private LinkedList<float> RecentImprovements = new LinkedList<float>();
+    private float? lastScore;
 
     void Start()
     {
@@ -90,29 +92,30 @@ public class UiController : MonoBehaviour
 
     public void UpdateTrainingDetails(int iteration, float bestScore)
     {
-        if (RecentScores.Count > 5)
-        {
-            RecentScores.RemoveLast();
-        }
-        RecentScores.AddFirst(bestScore);
-        
-
         IterationText.text = iteration.ToString();
         BestScoreText.text = bestScore.ToString("F1");
 
-        if (RecentScores.Count > 1)
+        if (lastScore.HasValue)
         {
-            var improvement = RecentScores.First.Value - RecentScores.Last.Value;
+            if (RecentImprovements.Count >= 5)
+            {
+                RecentImprovements.RemoveLast();
+            }
+            RecentImprovements.AddFirst(bestScore - lastScore.Value);
+
+            var improvement = RecentImprovements.Average(x => x);
             if (improvement < 0)
             {
                 ImprovementText.color = new Color(0.87f, 0.24f, 0.14f);
-                ImprovementText.text = improvement.ToString("F2");
+                ImprovementText.text = improvement.ToString("F1");
             }
             else
             {
                 ImprovementText.color = new Color(0.52f, 0.82f, 0.47f);
-                ImprovementText.text = "+" + improvement.ToString("F2");
+                ImprovementText.text = "+" + improvement.ToString("F1");
             }
         }
+
+        lastScore = bestScore;
     }
 }

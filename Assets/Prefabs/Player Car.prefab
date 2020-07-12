@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5588716406451804779}
   - component: {fileID: 5588716406451804780}
   - component: {fileID: 983160128}
+  - component: {fileID: -5690275819177013525}
   m_Layer: 8
   m_Name: Player Car
-  m_TagString: Untagged
+  m_TagString: Car AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,16 +41,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5588716406451804778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fa75414696c9b4458b2486df26feed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 40
+  startSpeed: 0
   maxSpeed: 20
+  minSpeed: 0
   breaks: 40
   handling: 2
+  rate: 0
   speed: 0
+  turn: 0
+  deaccelleration: 0.02
+  timeAliveMax: 0
+  timeAlive: 0
+  distanceDriven: 0
+  scoreAccelerate: 0
+  scoreDecelerate: 0
   secondsAlive: 0
 --- !u!114 &983160128
 MonoBehaviour:
@@ -63,6 +74,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2906f7f14478d294aacac0c4bbbbc96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CarController: {fileID: -5690275819177013525}
+--- !u!114 &-5690275819177013525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588716406451804778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb9b4ffa744f824bbfffa1824b2afdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerInput:
+    turning: 0
+    acceleration: 0
+    breaking: 0
+  carStats:
+    maxSpeed: 20
+    maxRotation: 3
+    rateRotation: 20
+  carData:
+    speed: 0
+    rotation: 0
+    distanceDriven: 0
 --- !u!1001 &566015916803697885
 PrefabInstance:
   m_ObjectHideFlags: 0

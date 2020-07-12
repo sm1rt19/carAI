@@ -383,8 +383,8 @@ MonoBehaviour:
     breaking: 0
   carStats:
     maxSpeed: 20
-    maxRotation: 40
-    rateRotation: 5
+    maxRotation: 3
+    rateRotation: 20
   carData:
     speed: 0
     rotation: 0

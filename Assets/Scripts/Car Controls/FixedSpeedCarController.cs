@@ -12,7 +12,7 @@ public class FixedSpeedCarController : CarControllerBase
         carData.rotation = Utilities.Step(carData.rotation, targetRotation, deltaRotation);
 
         transform.Rotate(new Vector3(0, carData.rotation, 0));
-        var distance = carData.speed * Time.deltaTime;
+        var distance = carStats.maxSpeed * Time.deltaTime;
         transform.Translate(Vector3.forward * distance, Space.Self);
         carData.distanceDriven += distance;
     }
