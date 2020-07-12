@@ -606,6 +606,7 @@ GameObject:
   - component: {fileID: 133381919}
   - component: {fileID: 133381918}
   - component: {fileID: 133381921}
+  - component: {fileID: 133381922}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -692,6 +693,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stiffness: 0.7
   PositionOffset: {x: -5, y: 35, z: -20}
+--- !u!114 &133381922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133381917}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b658814c55e08e441ac4db7b949c9c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionOffset: {x: -5, y: 35, z: -20}
+  lookOffset: {x: 0, y: 0, z: 0}
+  stiffness: 0.1
 --- !u!1001 &139953442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1055,9 +1071,9 @@ MonoBehaviour:
     vertical: 0
     breaking: 0
   carStats:
-    acceleration: 15
+    acceleration: 10
     maxSpeed: 30
-    maxRotation: 1.5
+    maxRotation: 2
     rateRotation: 15
   carData:
     speed: 0
@@ -4425,6 +4441,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588716406451804778, guid: d22b70ae81546cc45acf4f3d1ff80bca,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5588716406451804779, guid: d22b70ae81546cc45acf4f3d1ff80bca,
         type: 3}
