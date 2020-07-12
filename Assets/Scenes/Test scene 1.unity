@@ -7815,7 +7815,7 @@ MonoBehaviour:
   template: untrained.6.4.2.1.txt
   numberOfAiClients: 100
   bestPercentage: 10
-  randParameter: 1
+  randParameter: 2
   carPrefab: {fileID: 3656502498133730871, guid: 90184e39fc6b3454a9449002ec15fc38,
     type: 3}
   startLocation: {fileID: 524522120}

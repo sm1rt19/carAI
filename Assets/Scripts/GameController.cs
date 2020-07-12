@@ -16,8 +16,9 @@ public class GameController : MonoBehaviour
     public string template;
     public int numberOfAiClients;
     private NeuralNetworkTrainer networkTrainer;
+    [Range(10, 50)]
     public float bestPercentage;
-    [Range(0, 25)]
+    [Range(2, 10)]
     public float randParameter;
 
 
@@ -27,7 +28,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients, bestPercentage);
+        networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients);
         CreateAiClients();
         ResetAiClients();
     }
@@ -65,7 +66,7 @@ public class GameController : MonoBehaviour
             }
             IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score));
             networkTrainer.Write();
-            networkTrainer.Train(randParameter);
+            networkTrainer.Train(bestPercentage, randParameter);
             ResetAiClients();
         }
     }

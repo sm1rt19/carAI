@@ -13,18 +13,16 @@ public class NeuralNetworkTrainer
     public List<Driver> Drivers = new List<Driver>();
     public int Sessions;
     public List<Data> Data;
-    public float BestPercentage;
     private readonly string Folder;
     private readonly string Template;
     private readonly System.Random Rand = new System.Random();
 
-    public NeuralNetworkTrainer(string folder, string template, int size, float bestPercentage)
+    public NeuralNetworkTrainer(string folder, string template, int size)
     {
         Folder = folder;
         Template = template;
         Size = size;
         Sessions = 0;
-        BestPercentage = bestPercentage;
 
         for (int i = 0; i < size; i++)
         {
@@ -34,10 +32,10 @@ public class NeuralNetworkTrainer
         }
     }
 
-    public void Train(float randomness)
+    public void Train(float percentage, float randomness)
     {
         Sessions++;
-        int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(BestPercentage / 100f * (float)Size));
+        int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(percentage / 100f * (float)Size));
         Drivers = Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
         for (int i = 0; i < Drivers.Count; i++)
         {
@@ -65,7 +63,10 @@ public class NeuralNetworkTrainer
                         {
                             weight = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
                         }
-                        weight *= (float)((Rand.NextDouble() * 2f - 1f) * randomness);
+                        if (Rand.NextDouble() < 0.5f)
+                        {
+                            weight *= (float) ((Rand.NextDouble() * 2f - 1f) * randomness);
+                        }
                         AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
                     }
                 }
