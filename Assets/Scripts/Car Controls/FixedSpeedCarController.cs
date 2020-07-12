@@ -7,7 +7,7 @@ public class FixedSpeedCarController : CarControllerBase
 {
     void FixedUpdate()
     {
-        float targetRotation = controllerInput.turning * carStats.maxRotation;
+        float targetRotation = controllerInput.horizontal * carStats.maxRotation;
         float deltaRotation = carStats.rateRotation * Time.deltaTime;
         carData.rotation = Utilities.Step(carData.rotation, targetRotation, deltaRotation);
 

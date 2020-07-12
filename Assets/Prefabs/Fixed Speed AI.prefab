@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 4797039014445324749}
   - component: {fileID: 2208517602216607483}
   m_Layer: 8
-  m_Name: AI Car
+  m_Name: Fixed Speed AI
   m_TagString: Car AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,6 +333,7 @@ MonoBehaviour:
   drivingTestCompleted:
     m_PersistentCalls:
       m_Calls: []
+  id: 0
   carController: {fileID: 2208517602216607483}
   sensorData: {fileID: 3656502498516370303}
   timeAliveMax: 60
@@ -382,6 +383,7 @@ MonoBehaviour:
     acceleration: 0
     breaking: 0
   carStats:
+    acceleration: 1
     maxSpeed: 20
     maxRotation: 3
     rateRotation: 20

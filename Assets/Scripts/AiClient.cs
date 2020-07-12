@@ -10,17 +10,20 @@ public class DrivingTestCompletedEvent : UnityEvent<int, bool, float, float> { }
 
 public class AiClient : MonoBehaviour
 {
+    [HideInInspector]
     public DrivingTestCompletedEvent drivingTestCompleted = new DrivingTestCompletedEvent();
-
+    [HideInInspector]
     public int id;
-    public FixedSpeedCarController carController;
+    public CarControllerBase carController;
     public SensorData sensorData;
     public NeuralNetwork network;
     public float timeAliveMax;
     private float startTime;
+    private bool checkSpeed = false;
 
-    void Start()
+    private void EnableSpeedCheck()
     {
+        checkSpeed = true;
     }
 
     // Update is called once per frame
@@ -29,6 +32,11 @@ public class AiClient : MonoBehaviour
         if (network != null)
         {
             var timeAlive = Time.time - startTime;
+            if (checkSpeed && carController.carData.speed < 2)
+            {
+                drivingTestCompleted.Invoke(id, false, timeAlive, carController.carData.distanceDriven);
+            }
+
             if (timeAlive > timeAliveMax)
             {
                 drivingTestCompleted.Invoke(id, false, timeAlive, carController.carData.distanceDriven);
@@ -38,9 +46,9 @@ public class AiClient : MonoBehaviour
             float[] output = network.Evaluate(inputs);
             carController.controllerInput = new CarControllerInput
             {
-                acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
+                vertical = output.Length > 1 ? output[1] : 1, // Mathf.Clamp(output[1], -1f, 1f),
                 breaking = false,
-                turning = output[0]
+                horizontal = output[0]
             };
         }
     }
@@ -51,6 +59,8 @@ public class AiClient : MonoBehaviour
         this.network = network;
         gameObject.SetActive(true);
         startTime = Time.time;
+        checkSpeed = false;
+        Invoke("EnableSpeedCheck", 3);
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -80,25 +90,13 @@ public class AiClient : MonoBehaviour
         }
         if (network.Structure[0] == 8)
         {
-            //inputs = new float[sensorData.beamDistances.Length + 2];
-            if (true)
+            for (int i = 0; i < inputs.Length - 2; i++)
             {
-                for (int i = 0; i < inputs.Length - 2; i++)
-                {
-                    inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
-                }
-                inputs[inputs.Length - 2] = carData.rotation;
-                inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
+                inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
-            else
-            {
-                inputs[0] = carData.rotation;
-                for (int i = 1; i < inputs.Length - 1; i++)
-                {
-                    inputs[i] = sensorData.beamDistances[i - 1] / sensorData.beamMaxDistance;
-                }
-                inputs[inputs.Length - 2] = carData.speed / carStats.maxSpeed;
-            }
+            inputs[inputs.Length - 2] = carData.rotation / carStats.maxRotation;
+            inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
+
         }
         if (network.Structure[0] == 9)
         {

@@ -29,14 +29,15 @@ public abstract class CarControllerBase : MonoBehaviour
 [Serializable]
 public struct CarControllerInput
 {
-    public float turning;
-    public float acceleration;
+    public float horizontal;
+    public float vertical;
     public bool breaking;
 }
 
 [Serializable]
 public struct CarStats
 {
+    public float acceleration;
     public float maxSpeed;
     public float maxRotation;
     public float rateRotation;

@@ -80,12 +80,12 @@ namespace VehicleBehaviour {
         [SerializeField] float brakeForce = 1500.0f;
         public float BrakeForce { get { return brakeForce; } set { brakeForce = value; } }
 
-        // Max turning hangle, usualy higher for drift car
+        // Max horizontal hangle, usualy higher for drift car
         [Range(0f, 50.0f)]
         [SerializeField] float steerAngle = 30.0f;
         public float SteerAngle { get { return steerAngle; } set { steerAngle = Mathf.Clamp(value, 0.0f, 50.0f); } }
 
-        // The value used in the turning Lerp, 1 is instant (Strong power turning), and 0 is not turning at all
+        // The value used in the horizontal Lerp, 1 is instant (Strong power horizontal), and 0 is not horizontal at all
         [Range(0.001f, 1.0f)]
         [SerializeField] float steerSpeed = 0.2f;
         public float SteerSpeed { get { return steerSpeed; } set { steerSpeed = Mathf.Clamp(value, 0.001f, 1.0f); } }
@@ -116,7 +116,7 @@ namespace VehicleBehaviour {
         [SerializeField] float downforce = 1.0f;
         public float Downforce { get{ return downforce; } set{ downforce = Mathf.Clamp(value, 0, 5); } }     
 
-        // When IsPlayer is false you can use this to control the turning
+        // When IsPlayer is false you can use this to control the horizontal
         float steering;
         public float Steering { get{ return steering; } set{ steering = Mathf.Clamp(value, -1f, 1f); } } 
 

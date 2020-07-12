@@ -70,16 +70,16 @@ public class CarController : MonoBehaviour
         DoRollBar(wheelFR, wheelFL);
         DoRollBar(wheelRR, wheelRL);
 
-        //wheelFR.steerAngle = input.turning * maxSteerAngle;
+        //wheelFR.steerAngle = input.horizontal * maxSteerAngle;
         //wheelFL.steerAngle = wheelFR.steerAngle;
 
-        targetSteerAngle = input.turning * maxSteerAngle;
+        targetSteerAngle = input.horizontal * maxSteerAngle;
         float deltaSteerAngle = rateSteerAngle * Time.deltaTime;
         currentSteerAngle = Utilities.Step(currentSteerAngle, targetSteerAngle, deltaSteerAngle);
         wheelFR.steerAngle = currentSteerAngle;
         wheelFL.steerAngle = wheelFR.steerAngle;
 
-        var torque = input.acceleration * torqueCurve.Evaluate(Mathf.Abs(WheelRpm / maxRpm)) * maxTorque;
+        var torque = input.vertical * torqueCurve.Evaluate(Mathf.Abs(WheelRpm / maxRpm)) * maxTorque;
         wheelFL.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelFR.motorTorque = driveMode.HasFlag(DriveMode.Front) ? torque : 0;
         wheelRR.motorTorque = driveMode.HasFlag(DriveMode.Rear) ? torque : 0;

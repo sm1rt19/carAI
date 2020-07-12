@@ -1032,6 +1032,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204658433}
   m_CullTransparentMesh: 0
+--- !u!1 &221441670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5588716406451804778, guid: d22b70ae81546cc45acf4f3d1ff80bca,
+    type: 3}
+  m_PrefabInstance: {fileID: 1184800797}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &221441671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221441670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b48a27a4d816db4583da3513b890d1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerInput:
+    turning: 0
+    acceleration: 0
+    breaking: 0
+  carStats:
+    acceleration: 15
+    maxSpeed: 30
+    maxRotation: 2
+    rateRotation: 15
+  carData:
+    speed: 0
+    rotation: 0
+    distanceDriven: 0
 --- !u!1001 &233013841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4376,6 +4407,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5690275819177013525, guid: d22b70ae81546cc45acf4f3d1ff80bca,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983160128, guid: d22b70ae81546cc45acf4f3d1ff80bca, type: 3}
+      propertyPath: CarController
+      value: 
+      objectReference: {fileID: 221441671}
     - target: {fileID: 5588716406451804778, guid: d22b70ae81546cc45acf4f3d1ff80bca,
         type: 3}
       propertyPath: m_Name
@@ -7906,11 +7946,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   folder: Network Templates/
-  template: untrained.6.4.2.1.txt
-  numberOfAiClients: 100
+  template: untrained.8.6.4.2.txt
+  numberOfAiClients: 50
   bestPercentage: 10
   randParameter: 3
-  carPrefab: {fileID: 3656502498133730871, guid: 90184e39fc6b3454a9449002ec15fc38,
+  carPrefab: {fileID: 8390038183028532947, guid: 3d484b20614c5094baccaa435d23f03c,
     type: 3}
   startLocation: {fileID: 524522120}
 --- !u!4 &1945150979

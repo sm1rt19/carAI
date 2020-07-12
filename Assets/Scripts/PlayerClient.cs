@@ -15,8 +15,8 @@ public class PlayerClient : MonoBehaviour
         {
             CarController.controllerInput = new CarControllerInput
             {
-                acceleration = (Input.GetAxis("PS4 R2") * 0.5f + 0.5f) - (Input.GetAxis("PS4 L2") * 0.5f + 0.5f),
-                turning = Input.GetAxis("PS4 Horizontal"),
+                vertical = (Input.GetAxis("PS4 R2") * 0.5f + 0.5f) - (Input.GetAxis("PS4 L2") * 0.5f + 0.5f),
+                horizontal = Input.GetAxis("PS4 Horizontal"),
                 breaking = Input.GetButton("PS4 Square")
             };
         }
@@ -24,8 +24,8 @@ public class PlayerClient : MonoBehaviour
         {
             CarController.controllerInput = new CarControllerInput
             {
-                acceleration = Input.GetAxis("PC Vertical"),
-                turning = Input.GetAxis("PC Horizontal"),
+                vertical = Input.GetAxis("PC Vertical"),
+                horizontal = Input.GetAxis("PC Horizontal"),
                 breaking = Input.GetButton("PC Space")
             };
         }
