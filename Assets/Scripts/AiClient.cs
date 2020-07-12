@@ -37,6 +37,10 @@ public class AiClient : MonoBehaviour
 
             float[] inputs = GetNetworkInputs();
             float[] output = network.Evaluate(inputs);
+
+            if (Mathf.Abs(output[0]) > 0.1)
+                print(output[0]);
+
             carController.controllerInput = new CarControllerInput
             {
                 acceleration = 1f, // Mathf.Clamp(output[1], -1f, 1f),
