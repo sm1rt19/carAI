@@ -7,9 +7,8 @@ using UnityEngine.UI;
 
 public class UiController : MonoBehaviour
 {
-    public GameController GameController;
-
     public GameObject SettingsPanel;
+    public GameObject TrainingPanel;
     public Dropdown NumberOfCarsDropdown;
     public Text GameSpeedText;
     public Button FasterButton;
@@ -23,12 +22,16 @@ public class UiController : MonoBehaviour
 
     void Start()
     {
+        var drivingSchool = FindObjectOfType<DrivingSchoolController>();
+        if (drivingSchool != null)
+        {
+            drivingSchool.IterationCompleted.AddListener(UpdateTrainingDetails);
+        }
 
-    }
-
-    public void OnHomeClick()
-    {
-
+        if (!Application.isEditor)
+        {
+            TrainingPanel.SetActive(SceneSettings.isTraining);
+        }
     }
 
     public void OnSettingsClick()

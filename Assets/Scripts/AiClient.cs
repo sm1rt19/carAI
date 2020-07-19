@@ -21,6 +21,11 @@ public class AiClient : MonoBehaviour
     private float startTime;
     private bool checkSpeed = false;
 
+    void Start()
+    {
+        carController = GetComponent<CarControllerBase>();
+    }
+
     private void EnableSpeedCheck()
     {
         checkSpeed = true;

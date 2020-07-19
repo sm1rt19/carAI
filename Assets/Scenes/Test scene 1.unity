@@ -686,7 +686,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133381917}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e1a8de773eb4b2498bbb163116585ea, type: 3}
   m_Name: 
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133381917}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b658814c55e08e441ac4db7b949c9c2c, type: 3}
   m_Name: 
@@ -1074,7 +1074,7 @@ MonoBehaviour:
     acceleration: 10
     maxSpeed: 30
     maxRotation: 2
-    rateRotation: 15
+    rateRotation: 5
   carData:
     speed: 0
     rotation: 0
@@ -4440,7 +4440,7 @@ PrefabInstance:
     - target: {fileID: 5588716406451804778, guid: d22b70ae81546cc45acf4f3d1ff80bca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5588716406451804778, guid: d22b70ae81546cc45acf4f3d1ff80bca,
         type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GroupCameraController : MonoBehaviour
 {
-    public float stiffness = 0.3f;
+    public float transitionSpeed = 150;
     public Vector3 PositionOffset;
     private GameObject[] cars; 
 
@@ -22,7 +22,7 @@ public class GroupCameraController : MonoBehaviour
             float dx = activeCars.Average(x => x.transform.position.x);
             float dz = activeCars.Average(x => x.transform.position.z);
             var target = new Vector3(dx, 0, dz) + PositionOffset;
-            transform.position = Vector3.MoveTowards(transform.position, target, stiffness);
+            transform.position = Vector3.MoveTowards(transform.position, target, transitionSpeed * Time.deltaTime);
         }
     }
 }
