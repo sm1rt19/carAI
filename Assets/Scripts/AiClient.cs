@@ -85,6 +85,10 @@ public class AiClient : MonoBehaviour
         var carData = carController.carData;
         var carStats = carController.carStats;
         float[] inputs = new float[network.Structure[0]];
+
+        if (!sensorData.beamDistances.Any())
+            return inputs;
+
         if (network.Structure[0] == 6)
         {
             inputs = sensorData.beamDistances.Select(x => x / sensorData.beamMaxDistance).ToArray();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,14 +11,14 @@ public class NeuralNetwork
     public int[] Structure;
     public Layer[] Layers;
 
-    public NeuralNetwork(string path, float factor = 1)
+    public NeuralNetwork(string networkText, float factor = 1)
     {
-        Read(path, factor);
+        Read(networkText, factor);
     }
 
-    public void Read(string path, float factor)
+    public void Read(string networkText, float factor)
     {
-        string[] lines = File.ReadAllLines(path);
+        string[] lines = networkText.Split(new string[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
         string[] values = lines[0].Split(' ');
         Sessions = int.Parse(values[0]);
         values = lines[1].Split(' ');

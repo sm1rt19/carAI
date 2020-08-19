@@ -13,23 +13,44 @@ public class NeuralNetworkTrainer
     public List<Driver> Drivers = new List<Driver>();
     public int Sessions;
     public List<Data> Data;
-    private readonly string Folder;
-    private readonly string Template;
+    //private readonly string Folder;
+    //private readonly string Template;
     private readonly System.Random Rand = new System.Random();
 
     public NeuralNetworkTrainer(string folder, string template, int size)
     {
-        Folder = folder;
-        Template = template;
+        //Folder = folder;
+        //Template = template;
         Size = size;
         Sessions = 0;
 
         for (int i = 0; i < size; i++)
         {
+            var network = LoadNetworkTemplate();
             string path = folder + template;
-            Driver driver = new Driver(path, i, 0, 0f, Rand);
+            Driver driver = new Driver(network, i, 0, 0f, Rand);
             Drivers.Add(driver);
         }
+    }
+
+    private NeuralNetwork LoadNetworkTemplate()
+    {
+        // untrained.8.6.4.2
+        var networkText = @"0
+        8 6 4 2
+        0 0 0 0 0 0 0 0 0 0
+        0 1 0 0 0 0 0 0 0 0
+        0 2 0 0 0 0 0 0 0 0
+        0 3 0 0 0 0 0 0 0 0
+        0 4 0 0 0 0 0 0 0 0
+        0 5 0 0 0 0 0 0 0 0
+        1 0 0 0 0 0 0 0
+        1 1 0 0 0 0 0 0
+        1 2 0 0 0 0 0 0
+        1 3 0 0 0 0 0 0
+        2 0 0 0 0 0
+        2 1 0 0 0 0";
+        return new NeuralNetwork(networkText);
     }
 
     public void Train(float percentage, float randomness)
@@ -47,7 +68,7 @@ public class NeuralNetworkTrainer
         {
             Driver JamesHunt = Drivers[Rand.Next(0, bestDrivers)];
             Driver NikiLauda = Drivers[Rand.Next(0, bestDrivers)];
-            Driver AyrtonSenna = new Driver(Folder + Template, id, Sessions, 0f, Rand);
+            Driver AyrtonSenna = new Driver(LoadNetworkTemplate(), id, Sessions, 0f, Rand);
             for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
             {
                 for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
@@ -65,7 +86,7 @@ public class NeuralNetworkTrainer
                         }
                         if (Rand.NextDouble() < 0.5f)
                         {
-                            weight *= (float) ((Rand.NextDouble() * 2f - 1f) * randomness);
+                            weight *= (float)((Rand.NextDouble() * 2f - 1f) * randomness);
                         }
                         AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
                     }
@@ -98,9 +119,9 @@ public class NeuralNetworkTrainer
 
     public void Write(Driver driver)
     {
-        string path = Folder + "current" + Template.Substring(Template.IndexOf("."));
-        driver.Brain.Sessions = driver.Sessions;
-        driver.Brain.Write(path);
+        //string path = Folder + "current" + Template.Substring(Template.IndexOf("."));
+        //driver.Brain.Sessions = driver.Sessions;
+        //driver.Brain.Write(path);
     }
 }
 
@@ -111,11 +132,11 @@ public class Driver
     public float Score;
     public NeuralNetwork Brain;
 
-    public Driver(string path, int id, int sessions, float score, System.Random random)
+    public Driver(NeuralNetwork network, int id, int sessions, float score, System.Random random)
     {
         Id = id;
         Score = score;
-        Brain = new NeuralNetwork(path);
+        Brain = network;
         if (sessions > 0)
         {
             Sessions = sessions;

@@ -81,7 +81,10 @@ public class DrivingSchoolController : MonoBehaviour
         if (aiClients != null && aiClients.All(x => !x.gameObject.activeSelf))
         {
             IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score));
-            networkTrainer.Write();
+            if (Application.isEditor)
+            {
+                networkTrainer.Write();
+            }
             networkTrainer.Train(bestPercentage, randParameter);
             ResetAiClients();
         }
