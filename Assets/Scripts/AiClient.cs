@@ -76,7 +76,9 @@ public class AiClient : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         var timeAlive = Time.time - startTime;
-        var completed = collision.collider.CompareTag("Goal line") && timeAlive > 10f;
+        var completed = false;
+        //completed = timeAlive > 10f;
+        //completed = collision.collider.CompareTag("Goal line") && timeAlive > 10f;
         drivingTestCompleted.Invoke(id, completed, timeAlive, carController.carData.distanceDriven);
     }
 
@@ -102,7 +104,7 @@ public class AiClient : MonoBehaviour
             }
             inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
         }
-        if (network.Structure[0] == 8)
+        if (network.Structure[0] == 8 || network.Structure[0] == 14)
         {
             for (int i = 0; i < inputs.Length - 2; i++)
             {

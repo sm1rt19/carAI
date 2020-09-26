@@ -18,7 +18,7 @@ public class NeuralNetwork
 
     public void Read(string networkText, float factor)
     {
-        string[] lines = networkText.Split(new string[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        string[] lines = networkText.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
         string[] values = lines[0].Split(' ');
         Sessions = int.Parse(values[0]);
         values = lines[1].Split(' ');
