@@ -54,11 +54,12 @@ public class DrivingSchoolController : MonoBehaviour
 
     private void OnAiCompletedTraining(int id, bool completedRound, float time, float distance)
     {
-        var score = 0f;
-        if (completedRound)
-            score = 10000 - time;
-        else
-            score = distance / time;
+        float score = 0f;
+        //if (completedRound)
+        //    score = 10000 - time;
+        //else
+        //    score = distance / time;
+        score = distance - distance / time;
         networkTrainer.Drivers[id].Score = score;
         aiClients[id].gameObject.SetActive(false);
         trainingAis--;
