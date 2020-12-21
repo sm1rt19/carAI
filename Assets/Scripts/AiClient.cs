@@ -79,6 +79,7 @@ public class AiClient : MonoBehaviour
         var completed = false;
         //completed = timeAlive > 10f;
         //completed = collision.collider.CompareTag("Goal line") && timeAlive > 10f;
+        completed = collision.collider.CompareTag("Goal line");
         drivingTestCompleted.Invoke(id, completed, timeAlive, carController.carData.distanceDriven);
     }
 

@@ -17,12 +17,14 @@ public class UiController : MonoBehaviour
     public Text IterationText;
     public Text BestScoreText;
     public Text ImprovementText;
+    public Text NumberOfCarsText;
 
-    private float? lastScore;
+    private float lastScore = 0f;
+    //private float? lastScore;
 
     void Start()
     {
-        var drivingSchool = FindObjectOfType<DrivingSchoolController>();
+        DrivingSchoolController drivingSchool = FindObjectOfType<DrivingSchoolController>();
         if (drivingSchool != null)
         {
             drivingSchool.IterationCompleted.AddListener(UpdateTrainingDetails);
@@ -92,26 +94,72 @@ public class UiController : MonoBehaviour
         var carCount = int.Parse(itemText);
     }
 
-    public void UpdateTrainingDetails(int iteration, float bestScore)
+    public void UpdateTrainingDetails(int iteration, float bestScore, int numberOfCarsAlive, int numberOfCarsInitial)
     {
-        IterationText.text = iteration.ToString();
-        BestScoreText.text = bestScore.ToString("F1");
+        // Carsten: If using this version then declare variable above: private float lastScore = 0f;
 
-        if (lastScore.HasValue)
+        IterationText.text = iteration.ToString();
+        NumberOfCarsText.text = numberOfCarsAlive.ToString() + " / " + numberOfCarsInitial.ToString();
+
+        if (numberOfCarsAlive == 0)
         {
-            var improvement = bestScore - lastScore.Value;
-            if (improvement < 0)
+            BestScoreText.text = bestScore.ToString("F1");
+
+            float improvement = bestScore - lastScore;
+            if (System.Math.Abs(improvement) < 0.1f)
             {
-                ImprovementText.color = new Color(0.87f, 0.24f, 0.14f);
-                ImprovementText.text = improvement.ToString("F1");
+                ImprovementText.color = new Color(1f, 1f, 1f);
+                ImprovementText.text = "0.0";
             }
             else
             {
-                ImprovementText.color = new Color(0.52f, 0.82f, 0.47f);
-                ImprovementText.text = "+" + improvement.ToString("F1");
+                if (improvement > 0)
+                {
+                    ImprovementText.color = new Color(0.52f, 0.82f, 0.47f);
+                    ImprovementText.text = "+" + improvement.ToString("F1");
+                }
+                else
+                {
+                    ImprovementText.color = new Color(0.87f, 0.24f, 0.14f);
+                    ImprovementText.text = improvement.ToString("F1");
+                }
             }
-        }
 
-        lastScore = bestScore;
+            lastScore = bestScore;
+        }
     }
+
+    //public void UpdateTrainingDetails(int iteration, float bestScore, int numberOfCars)
+    //{
+    //    // Carsten: If using this version then declare variable above: private float? lastScore;
+
+    //    IterationText.text = iteration.ToString();
+    //    NumberOfCarsText.text = numberOfCars.ToString();
+    //    BestScoreText.text = bestScore.ToString("F1");
+
+    //    if (lastScore.HasValue)
+    //    {
+    //        float improvement = bestScore - lastScore.Value;
+    //        if (System.Math.Abs(improvement) < 0.1f)
+    //        {
+    //            ImprovementText.color = new Color(1f, 1f, 1f);
+    //            ImprovementText.text = "0.0";
+    //        }
+    //        else
+    //        {
+    //            if (improvement > 0)
+    //            {
+    //                ImprovementText.color = new Color(0.52f, 0.82f, 0.47f);
+    //                ImprovementText.text = "+" + improvement.ToString("F1");
+    //            }
+    //            else
+    //            {
+    //                ImprovementText.color = new Color(0.87f, 0.24f, 0.14f);
+    //                ImprovementText.text = improvement.ToString("F1");
+    //            }
+    //        }
+    //    }
+
+    //    lastScore = bestScore;
+    //}
 }

@@ -112,11 +112,12 @@ public class NeuralNetworkTrainer
         Sessions++;
         int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(percentage / 100f * (float)Size));
         //Drivers = Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
-        Drivers = Drivers.OrderByDescending(driver => driver.Score).ToList();
+        //Drivers = Drivers.OrderByDescending(driver => driver.Score).ToList();
+        Drivers = Drivers.OrderByDescending(x => x.Scores.Max()).ToList();
         Drivers = Drivers.Take(bestDrivers).ToList();
         for (int i = 0; i < Drivers.Count; i++)
         {
-            Drivers[i].Scores.Add(Drivers[i].Score);
+            //Drivers[i].Scores.Add(Drivers[i].Score);
             Drivers[i].Ids.Add(Drivers[i].Id);
             //
             Drivers[i].Id = i;
@@ -191,6 +192,9 @@ public class Driver
     public int Sessions;
     public float Score;
     public List<float> Scores = new List<float>();
+    public List<float> Distances = new List<float>();
+    public List<float> Times = new List<float>();
+    public List<float> Speeds = new List<float>();
     public NeuralNetwork Brain;
 
     public Driver(NeuralNetwork network, int id, int sessions, float score, System.Random random)

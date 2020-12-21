@@ -46,7 +46,6 @@ public class MainSceneManager : MonoBehaviour
                 break;
             case CarControllerMode.Physically:
                 throw new NotImplementedException();
-                break;
             default:
                 throw new NotImplementedException();
 

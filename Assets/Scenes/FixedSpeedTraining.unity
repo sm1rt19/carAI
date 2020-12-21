@@ -232,7 +232,7 @@ MonoBehaviour:
         m_CallState: 2
   folder: Network Templates/
   template: untrained.8.6.4.2.txt
-  numberOfAiClients: 50
+  numberOfAiClients: 100
   bestPercentage: 10
   randParameter: 2
   carPrefab: {fileID: 2443531129510924585, guid: a992bc950a0f414459017145ed3711a2,
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1a8de773eb4b2498bbb163116585ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stiffness: 150
+  transitionSpeed: 150
   PositionOffset: {x: -5, y: 35, z: -20}
 --- !u!81 &1030843922
 AudioListener:

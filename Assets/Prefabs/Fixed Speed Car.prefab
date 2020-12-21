@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d16b98046fe67429cbd8af46b54b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beamMaxDistance: 20
+  beamMaxDistance: 15
   speed: 0
   angleToCheckpoint: 0
   beamDistances: []

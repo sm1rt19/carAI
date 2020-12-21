@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-public class IterationCompleteEvent : UnityEvent<int, float> { }
+public class IterationCompleteEvent : UnityEvent<int, float, int, int> { }
 
 public class DrivingSchoolController : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class DrivingSchoolController : MonoBehaviour
     public float bestPercentage;
     [Range(2, 10)]
     public float randParameter;
-    private Transform startLine; 
+    private Transform startLine;
 
 
     public GameObject carPrefab;
@@ -35,6 +35,8 @@ public class DrivingSchoolController : MonoBehaviour
         networkTrainer = new NeuralNetworkTrainer(folder, template, numberOfAiClients);
         CreateAiClients();
         ResetAiClients();
+
+
     }
 
     private void CreateAiClients()
@@ -55,19 +57,24 @@ public class DrivingSchoolController : MonoBehaviour
     private void OnAiCompletedTraining(int id, bool completedRound, float time, float distance)
     {
         float score = 0f;
-        //if (completedRound)
-        //    score = 10000 - time;
-        //else
-        //    score = distance / time;
-        score = distance - distance / time;
+        if (completedRound)
+            score = 10000 - distance;
+        else
+            score = distance;
         networkTrainer.Drivers[id].Score = score;
+        //
+        networkTrainer.Drivers[id].Scores.Add(score);
+        networkTrainer.Drivers[id].Distances.Add(distance);
+        networkTrainer.Drivers[id].Times.Add(time);
+        networkTrainer.Drivers[id].Speeds.Add(distance / time);
+        //
         aiClients[id].gameObject.SetActive(false);
         trainingAis--;
     }
 
     private void ResetAiClients()
     {
-        
+
         for (int i = 0; i < numberOfAiClients; i++)
         {
             aiClients[i].Restart(startLine.gameObject.transform, networkTrainer.Drivers[i].Brain);
@@ -79,15 +86,29 @@ public class DrivingSchoolController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (aiClients != null && aiClients.All(x => !x.gameObject.activeSelf))
+        if (aiClients != null)
         {
-            IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score));
-            if (Application.isEditor)
+            IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score), aiClients.Count(x => x.gameObject.activeSelf), numberOfAiClients);
+            if (aiClients.All(x => !x.gameObject.activeSelf))
             {
-                networkTrainer.Write();
+                if (Application.isEditor)
+                {
+                    networkTrainer.Write();
+                }
+                networkTrainer.Train(bestPercentage, randParameter);
+                ResetAiClients();
             }
-            networkTrainer.Train(bestPercentage, randParameter);
-            ResetAiClients();
         }
+
+        //if (aiClients != null && aiClients.All(x => !x.gameObject.activeSelf))
+        //{
+        //    IterationCompleted.Invoke(networkTrainer.Sessions + 1, networkTrainer.Drivers.Max(x => x.Score), aiClients.Count(x => x.gameObject.activeSelf));
+        //    if (Application.isEditor)
+        //    {
+        //        networkTrainer.Write();
+        //    }
+        //    networkTrainer.Train(bestPercentage, randParameter);
+        //    ResetAiClients();
+        //}
     }
 }

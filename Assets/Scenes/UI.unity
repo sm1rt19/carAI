@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 104780990}
   - component: {fileID: 104780989}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527540635}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2825,9 +2825,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 104780988}
   - {fileID: 2003405959}
   - {fileID: 1869222227}
-  - {fileID: 104780988}
   m_Father: {fileID: 1350238758}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3377,6 +3377,7 @@ MonoBehaviour:
   IterationText: {fileID: 1377181690}
   BestScoreText: {fileID: 1351682902}
   ImprovementText: {fileID: 145131474}
+  NumberOfCarsText: {fileID: 2003405960}
 --- !u!114 &1816601688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3570,7 +3571,7 @@ RectTransform:
   m_Children:
   - {fileID: 1028987737}
   m_Father: {fileID: 1527540635}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3815,12 +3816,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527540635}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.7999992, y: -6.4000244}
-  m_SizeDelta: {x: 58.77, y: 30}
+  m_SizeDelta: {x: 158.77, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2003405960
 MonoBehaviour:
@@ -3854,9 +3855,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '50
-
-'
+  m_Text: '-'
 --- !u!222 &2003405961
 CanvasRenderer:
   m_ObjectHideFlags: 0
