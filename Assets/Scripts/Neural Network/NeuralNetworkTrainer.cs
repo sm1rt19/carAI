@@ -11,6 +11,7 @@ public class NeuralNetworkTrainer
 {
     public int Size;
     public List<Driver> Drivers = new List<Driver>();
+    public List<Driver> BestDrivers = new List<Driver>();
     public int Sessions;
     public List<Data> Data;
     //private readonly string Folder;
@@ -26,12 +27,86 @@ public class NeuralNetworkTrainer
 
         for (int i = 0; i < size; i++)
         {
-            var network = LoadNetworkTemplate();
+            NeuralNetwork network = LoadNetworkTemplate();
             string path = folder + template;
             Driver driver = new Driver(network, i, 0, 0f, Rand);
             Drivers.Add(driver);
         }
     }
+
+    //private NeuralNetwork LoadNetworkTemplate()
+    //{
+    //    var networkText = "";
+    //    if (false)
+    //    {
+    //        // untrained.8.6.4.2
+    //         networkText = @"
+    //    0;
+    //    8 6 4 2;
+    //    0 0 0 0 0 0 0 0 0 0;
+    //    0 1 0 0 0 0 0 0 0 0;
+    //    0 2 0 0 0 0 0 0 0 0;
+    //    0 3 0 0 0 0 0 0 0 0;
+    //    0 4 0 0 0 0 0 0 0 0;
+    //    0 5 0 0 0 0 0 0 0 0;
+    //    1 0 0 0 0 0 0 0;
+    //    1 1 0 0 0 0 0 0;
+    //    1 2 0 0 0 0 0 0;
+    //    1 3 0 0 0 0 0 0;
+    //    2 0 0 0 0 0;
+    //    2 1 0 0 0 0";
+    //    }
+    //    else
+    //    {
+    //        // untrained.14.12.10.8.6.4.2
+    //         networkText = @"
+    //    0;
+    //    14 12 10 8 6 4 2;
+    //    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 8 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    0 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 0 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 1 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 2 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 3 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 4 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 5 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 6 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 7 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 8 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    1 9 0 0 0 0 0 0 0 0 0 0 0 0;
+    //    2 0 0 0 0 0 0 0 0 0 0 0;
+    //    2 1 0 0 0 0 0 0 0 0 0 0;
+    //    2 2 0 0 0 0 0 0 0 0 0 0;
+    //    2 3 0 0 0 0 0 0 0 0 0 0;
+    //    2 4 0 0 0 0 0 0 0 0 0 0;
+    //    2 5 0 0 0 0 0 0 0 0 0 0;
+    //    2 6 0 0 0 0 0 0 0 0 0 0;
+    //    2 7 0 0 0 0 0 0 0 0 0 0;
+    //    3 0 0 0 0 0 0 0 0 0;
+    //    3 1 0 0 0 0 0 0 0 0;
+    //    3 2 0 0 0 0 0 0 0 0;
+    //    3 3 0 0 0 0 0 0 0 0;
+    //    3 4 0 0 0 0 0 0 0 0;
+    //    3 5 0 0 0 0 0 0 0 0;
+    //    4 0 0 0 0 0 0 0;
+    //    4 1 0 0 0 0 0 0;
+    //    4 2 0 0 0 0 0 0;
+    //    4 3 0 0 0 0 0 0;
+    //    5 0 0 0 0 0;
+    //    5 1 0 0 0 0";
+    //    }
+    //    return new NeuralNetwork(networkText);
+    //}
 
     private NeuralNetwork LoadNetworkTemplate()
     {
@@ -39,70 +114,70 @@ public class NeuralNetworkTrainer
         if (false)
         {
             // untrained.8.6.4.2
-             networkText = @"
+            networkText = @"
         0;
         8 6 4 2;
-        0 0 0 0 0 0 0 0 0 0;
-        0 1 0 0 0 0 0 0 0 0;
-        0 2 0 0 0 0 0 0 0 0;
-        0 3 0 0 0 0 0 0 0 0;
-        0 4 0 0 0 0 0 0 0 0;
-        0 5 0 0 0 0 0 0 0 0;
-        1 0 0 0 0 0 0 0;
-        1 1 0 0 0 0 0 0;
-        1 2 0 0 0 0 0 0;
-        1 3 0 0 0 0 0 0;
-        2 0 0 0 0 0;
-        2 1 0 0 0 0";
+        0 0 1 1 1 1 1 1 1 1;
+        0 1 1 1 1 1 1 1 1 1;
+        0 2 1 1 1 1 1 1 1 1;
+        0 3 1 1 1 1 1 1 1 1;
+        0 4 1 1 1 1 1 1 1 1;
+        0 5 1 1 1 1 1 1 1 1;
+        1 0 1 1 1 1 1 1;
+        1 1 1 1 1 1 1 1;
+        1 2 1 1 1 1 1 1;
+        1 3 1 1 1 1 1 1;
+        2 0 1 1 1 1;
+        2 1 1 1 1 1";
         }
         else
         {
             // untrained.14.12.10.8.6.4.2
-             networkText = @"
+            networkText = @"
         0;
         14 12 10 8 6 4 2;
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 8 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        0 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 0 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 1 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 2 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 3 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 4 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 5 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 6 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 7 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 8 0 0 0 0 0 0 0 0 0 0 0 0;
-        1 9 0 0 0 0 0 0 0 0 0 0 0 0;
-        2 0 0 0 0 0 0 0 0 0 0 0;
-        2 1 0 0 0 0 0 0 0 0 0 0;
-        2 2 0 0 0 0 0 0 0 0 0 0;
-        2 3 0 0 0 0 0 0 0 0 0 0;
-        2 4 0 0 0 0 0 0 0 0 0 0;
-        2 5 0 0 0 0 0 0 0 0 0 0;
-        2 6 0 0 0 0 0 0 0 0 0 0;
-        2 7 0 0 0 0 0 0 0 0 0 0;
-        3 0 0 0 0 0 0 0 0 0;
-        3 1 0 0 0 0 0 0 0 0;
-        3 2 0 0 0 0 0 0 0 0;
-        3 3 0 0 0 0 0 0 0 0;
-        3 4 0 0 0 0 0 0 0 0;
-        3 5 0 0 0 0 0 0 0 0;
-        4 0 0 0 0 0 0 0;
-        4 1 0 0 0 0 0 0;
-        4 2 0 0 0 0 0 0;
-        4 3 0 0 0 0 0 0;
-        5 0 0 0 0 0;
-        5 1 0 0 0 0";
+        0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 5 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 6 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 8 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 9 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 10 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        0 11 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 0 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 2 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 3 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 4 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 5 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 6 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 7 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 8 1 1 1 1 1 1 1 1 1 1 1 1;
+        1 9 1 1 1 1 1 1 1 1 1 1 1 1;
+        2 0 1 1 1 1 1 1 1 1 1 1;
+        2 1 1 1 1 1 1 1 1 1 1 1;
+        2 2 1 1 1 1 1 1 1 1 1 1;
+        2 3 1 1 1 1 1 1 1 1 1 1;
+        2 4 1 1 1 1 1 1 1 1 1 1;
+        2 5 1 1 1 1 1 1 1 1 1 1;
+        2 6 1 1 1 1 1 1 1 1 1 1;
+        2 7 1 1 1 1 1 1 1 1 1 1;
+        3 0 1 1 1 1 1 1 1 1;
+        3 1 1 1 1 1 1 1 1 1;
+        3 2 1 1 1 1 1 1 1 1;
+        3 3 1 1 1 1 1 1 1 1;
+        3 4 1 1 1 1 1 1 1 1;
+        3 5 1 1 1 1 1 1 1 1;
+        4 0 1 1 1 1 1 1;
+        4 1 1 1 1 1 1 1;
+        4 2 1 1 1 1 1 1;
+        4 3 1 1 1 1 1 1;
+        5 0 1 1 1 1;
+        5 1 1 1 1 1";
         }
         return new NeuralNetwork(networkText);
     }
@@ -111,8 +186,7 @@ public class NeuralNetworkTrainer
     {
         Sessions++;
         int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(percentage / 100f * (float)Size));
-        //Drivers = Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
-        //Drivers = Drivers.OrderByDescending(driver => driver.Score).ToList();
+        //Drivers.AddRange(BestDrivers);
         Drivers = Drivers.OrderByDescending(x => x.Scores.Max()).ToList();
         Drivers = Drivers.Take(bestDrivers).ToList();
         for (int i = 0; i < Drivers.Count; i++)
@@ -120,42 +194,101 @@ public class NeuralNetworkTrainer
             //Drivers[i].Scores.Add(Drivers[i].Score);
             Drivers[i].Ids.Add(Drivers[i].Id);
             //
-            Drivers[i].Id = i;
+            Drivers[i].Id = i;// + Size;
             Drivers[i].Sessions = Sessions;
         }
-        int id = bestDrivers;
+        //
+        //Drivers.Clear();
+        //int id = 0;
+        //
+        //Drivers = BestDrivers;
+        int id = Drivers.Count;
         while (id < Size)
         {
             Driver JamesHunt = Drivers[Rand.Next(0, bestDrivers)];
             Driver NikiLauda = Drivers[Rand.Next(0, bestDrivers)];
-            Driver AyrtonSenna = new Driver(LoadNetworkTemplate(), id, Sessions, 0f, Rand);
-            for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
+            if (JamesHunt.Id != NikiLauda.Id)
             {
-                for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
+                Driver AyrtonSenna = new Driver(LoadNetworkTemplate(), id, Sessions, 0f, Rand);
+                for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
                 {
-                    for (int k = 0; k < AyrtonSenna.Brain.Layers[i].Nodes[j].Weights.Length; k++)
+                    for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
                     {
-                        float weight;
-                        if (Rand.NextDouble() < 0.5f)
+                        for (int k = 0; k < AyrtonSenna.Brain.Layers[i].Nodes[j].Weights.Length; k++)
                         {
-                            weight = JamesHunt.Brain.Layers[i].Nodes[j].Weights[k];
+                            float weight;
+                            if (Rand.NextDouble() < 0.5f)
+                            {
+                                weight = JamesHunt.Brain.Layers[i].Nodes[j].Weights[k];
+                            }
+                            else
+                            {
+                                weight = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
+                            }
+                            if ((float)Rand.NextDouble() < 0.5f)
+                            {
+                                weight *= (float)((Rand.NextDouble() * 2f - 1f)) * randomness;
+                            }
+                            AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
                         }
-                        else
-                        {
-                            weight = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
-                        }
-                        if (Rand.NextDouble() < 0.5f)
-                        {
-                            weight *= (float)((Rand.NextDouble() * 2f - 1f) * randomness);
-                        }
-                        AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
                     }
                 }
+                Drivers.Add(AyrtonSenna);
+                id++;
             }
-            Drivers.Add(AyrtonSenna);
-            id++;
         }
     }
+
+    //public void Train(float percentage, float randomness)
+    //{
+    //    Sessions++;
+    //    int bestDrivers = System.Math.Max(2, (int)System.Math.Ceiling(percentage / 100f * (float)Size));
+    //    //Drivers = Drivers.OrderByDescending(driver => driver.Score).Skip(0).Take(bestDrivers).ToList();
+    //    //Drivers = Drivers.OrderByDescending(driver => driver.Score).ToList();
+    //    Drivers = Drivers.OrderByDescending(x => x.Scores.Max()).ToList();
+    //    Drivers = Drivers.Take(bestDrivers).ToList();
+    //    for (int i = 0; i < Drivers.Count; i++)
+    //    {
+    //        //Drivers[i].Scores.Add(Drivers[i].Score);
+    //        Drivers[i].Ids.Add(Drivers[i].Id);
+    //        //
+    //        Drivers[i].Id = i;
+    //        Drivers[i].Sessions = Sessions;
+    //    }
+    //    int id = bestDrivers;
+    //    while (id < Size)
+    //    {
+    //        Driver JamesHunt = Drivers[Rand.Next(0, bestDrivers)];
+    //        Driver NikiLauda = Drivers[Rand.Next(0, bestDrivers)];
+    //        Driver AyrtonSenna = new Driver(LoadNetworkTemplate(), id, Sessions, 0f, Rand);
+    //        for (int i = 0; i < AyrtonSenna.Brain.Layers.Length; i++)
+    //        {
+    //            for (int j = 0; j < AyrtonSenna.Brain.Layers[i].Nodes.Length; j++)
+    //            {
+    //                for (int k = 0; k < AyrtonSenna.Brain.Layers[i].Nodes[j].Weights.Length; k++)
+    //                {
+    //                    float weight;
+    //                    //if (Rand.NextDouble() < 0.5f)
+    //                    if (Rand.NextDouble() < JamesHunt.Scores.Max() / (JamesHunt.Scores.Max() + NikiLauda.Scores.Max()))
+    //                    {
+    //                        weight = JamesHunt.Brain.Layers[i].Nodes[j].Weights[k];
+    //                    }
+    //                    else
+    //                    {
+    //                        weight = NikiLauda.Brain.Layers[i].Nodes[j].Weights[k];
+    //                    }
+    //                    if (Rand.NextDouble() < 0.5f)
+    //                    {
+    //                        weight *= (float)((Rand.NextDouble() * 2f - 1f) * randomness);
+    //                    }
+    //                    AyrtonSenna.Brain.Layers[i].Nodes[j].Weights[k] = weight;
+    //                }
+    //            }
+    //        }
+    //        Drivers.Add(AyrtonSenna);
+    //        id++;
+    //    }
+    //}
 
     private int Best()
     {
@@ -229,7 +362,11 @@ public class Driver
             {
                 for (int j = 0; j < node.Weights.Length; j++)
                 {
-                    node.Weights[j] = (float)((rand.NextDouble() * 2f - 1f) * 0.4f);
+                    node.Weights[j] = 0f;
+                    if ((float)rand.NextDouble() < 0.5f)
+                    {
+                        node.Weights[j] = (float)((rand.NextDouble() * 2f - 1f) * 0.5f);
+                    }
                 }
             }
         }

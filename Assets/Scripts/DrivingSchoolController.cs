@@ -20,7 +20,9 @@ public class DrivingSchoolController : MonoBehaviour
     private NeuralNetworkTrainer networkTrainer;
     [Range(10, 50)]
     public float bestPercentage;
-    [Range(2, 10)]
+    //[Range(0, 100)]
+    //public float randProbability;
+    [Range(0, 10)]
     public float randParameter;
     private Transform startLine;
 
@@ -62,8 +64,8 @@ public class DrivingSchoolController : MonoBehaviour
         else
             score = distance;
         networkTrainer.Drivers[id].Score = score;
-        //
         networkTrainer.Drivers[id].Scores.Add(score);
+        //
         networkTrainer.Drivers[id].Distances.Add(distance);
         networkTrainer.Drivers[id].Times.Add(time);
         networkTrainer.Drivers[id].Speeds.Add(distance / time);
