@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class Tire2Wheel : MonoBehaviour
 {
-    private WheelCollider collider;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        collider = this.GetComponentInParent<WheelCollider>();
-    }
+    public WheelCollider collider;
 
     // Update is called once per frame
     void Update()
