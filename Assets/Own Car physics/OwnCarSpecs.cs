@@ -8,13 +8,17 @@ using UnityEngine;
 public class OwnCarSpecs : MonoBehaviour
 {
     [Header("Power")]
-    public float maxAcceleration;
+    public AnimationCurve accelerationCurve;
+    public float maxSpeed;
+    public float acceleration;
+
+    [Header("Steering")]
     public float maxSteerAngle;
     public float steeringRate;
     public float maxSteerAcceleration;
-    public float maxSpeed;
 
-
+    [Header("Friction")]
     public float forwardFriction;
     public float sidewaysFriction;
+    public float rotationalFriction;
 }

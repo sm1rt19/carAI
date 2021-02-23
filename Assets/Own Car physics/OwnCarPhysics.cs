@@ -26,6 +26,8 @@ public class OwnCarPhysics : MonoBehaviour
     private Rigidbody rigidbody;
     private OwnCarSpecs specs;
 
+    private DateTime startTime;
+
     void Start()
     {
         input = GetComponent<OwnCarInputs>();
@@ -38,7 +40,6 @@ public class OwnCarPhysics : MonoBehaviour
         wheelPosDict[WheelFR] = WheelFR.position;
         wheelPosDict[WheelRL] = WheelRL.position;
         wheelPosDict[WheelRR] = WheelRR.position;
-
         lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -54,10 +55,46 @@ public class OwnCarPhysics : MonoBehaviour
     public void PhysicsStep(float deltaTime)
     {
         RotateWheel(deltaTime);
+        BasicAccelerate(deltaTime);
+        BasicFriction(deltaTime);
+        BasicRotationalFriction(deltaTime);
         CalculateWheelForce(deltaTime, WheelFL);
         CalculateWheelForce(deltaTime, WheelFR);
-        CalculateWheelForce(deltaTime, WheelRR);
-        CalculateWheelForce(deltaTime, WheelRL);
+        //CalculateWheelForce(deltaTime, WheelRR);
+        //CalculateWheelForce(deltaTime, WheelRL);
+    }
+
+    private void BasicAccelerate(float deltaTime)
+    {
+        var acceleration = specs.acceleration * specs.accelerationCurve.Evaluate(rigidbody.velocity.magnitude / specs.maxSpeed);
+        if (acceleration > 0)
+        {
+            var velocityChange = transform.forward * input.vertical * acceleration * deltaTime;
+            rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+    }
+
+    private void BasicFriction(float deltaTime)
+    {
+        if (rigidbody.velocity == Vector3.zero)
+            return;
+
+        var forwardFactor = Vector3.Project(rigidbody.velocity.normalized, transform.forward).magnitude;
+        var sidewaysFactor = Vector3.Project(rigidbody.velocity.normalized, transform.right).magnitude;
+        var frictionDir = -rigidbody.velocity.normalized;
+        var friction = specs.sidewaysFriction * sidewaysFactor + specs.forwardFriction * forwardFactor;
+        var frictionForce = Mathf.Min(rigidbody.velocity.magnitude, friction) * frictionDir * deltaTime;
+        rigidbody.AddForce(frictionForce, ForceMode.VelocityChange);
+    }
+
+    private void BasicRotationalFriction(float deltaTime)
+    {
+        if (rigidbody.angularVelocity.magnitude == 0)
+            return;
+
+        var friction = Mathf.Min(rigidbody.angularVelocity.magnitude, specs.rotationalFriction);
+        var frictionForce = friction * -rigidbody.angularVelocity.normalized * deltaTime;
+        rigidbody.AddTorque(frictionForce, ForceMode.VelocityChange);
     }
 
     private void ShowControls()
@@ -92,19 +129,25 @@ public class OwnCarPhysics : MonoBehaviour
         return wheel.TransformVector(friction);
     }
 
-    private Vector3 GetMotorForce(Transform wheel)
+    //private Vector3 GetFrictionForceCar()
+    //{
+    //    rigidbody.velocity.
+    //}
+
+    private Vector3 GetMotorForce(float deltaTime, Transform wheel)
     {
-        var force = wheel.TransformDirection(Vector3.forward) * specs.maxAcceleration * input.vertical;
+        var force = wheel.TransformDirection(Vector3.forward) * specs.acceleration * input.vertical * deltaTime;
+        rigidbody.AddForceAtPosition(force, wheel.position, ForceMode.VelocityChange);
         return force;
     }
 
     private void CalculateWheelForce(float deltaTime, Transform wheel)
     {
-        var friction = GetFrictionForce(wheel);
-        var motor = GetMotorForce(wheel);
-        var calculatedForce = (friction + motor) * deltaTime;
+        //var friction = GetFrictionForce(wheel);
+        var motor = GetMotorForce(deltaTime, wheel);
+        var calculatedForce = (motor) * deltaTime;
 
-        rigidbody.AddForceAtPosition(calculatedForce, wheel.position, ForceMode.Impulse);
+        
 
         //var normAngle = wheelAngle / specs.maxSteerAngle;
         //var hackForce = wheel.right * normAngle * specs.maxSteerAcceleration * deltaTime;
