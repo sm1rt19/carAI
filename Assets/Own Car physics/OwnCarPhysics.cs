@@ -55,13 +55,48 @@ public class OwnCarPhysics : MonoBehaviour
     public void PhysicsStep(float deltaTime)
     {
         RotateWheel(deltaTime);
-        BasicAccelerate(deltaTime);
-        BasicFriction(deltaTime);
-        BasicRotationalFriction(deltaTime);
-        CalculateWheelForce(deltaTime, WheelFL);
-        CalculateWheelForce(deltaTime, WheelFR);
+        CalculateNormalPhysics(deltaTime);
+
+
+        //CalculateWheelForce(deltaTime, WheelFL);
+        //CalculateWheelForce(deltaTime, WheelFR);
+
         //CalculateWheelForce(deltaTime, WheelRR);
         //CalculateWheelForce(deltaTime, WheelRL);
+    }
+
+    public void CalculateDriftPhysics(float deltaTime)
+    {
+        BasicRotationalFriction(deltaTime);
+    }
+
+    public void CalculateNormalPhysics(float deltaTime)
+    {
+        if (input.breaking)
+        {
+            BasicBreak(deltaTime);
+        }
+        else
+        {
+            BasicAccelerate(deltaTime);
+        }
+        BasicFriction(deltaTime);
+        CalculateRotation(deltaTime);
+    }
+
+    private void BasicBreak(float deltaTime)
+    {
+        var frictionForce = Mathf.Min(rigidbody.velocity.magnitude, specs.breakingAcceleration) * -rigidbody.velocity.normalized * deltaTime;
+        rigidbody.AddForce(frictionForce, ForceMode.VelocityChange);
+    }
+
+    private void CalculateRotation(float deltaTime)
+    {
+        var relativeSpeed = transform.InverseTransformVector(rigidbody.velocity).z;
+        var rotationPerSpeed = specs.maxSteerAcceleration * specs.steeringCurve.Evaluate(Mathf.Abs(relativeSpeed) / specs.maxSpeed);
+        var rotationForce = wheelAngle * deltaTime * relativeSpeed * rotationPerSpeed;
+        rigidbody.angularVelocity = new Vector3(0, rotationForce, 0);
+        //rigidbody.AddTorque(0, rotationForce, 0, ForceMode.VelocityChange);
     }
 
     private void BasicAccelerate(float deltaTime)
@@ -69,8 +104,10 @@ public class OwnCarPhysics : MonoBehaviour
         var acceleration = specs.acceleration * specs.accelerationCurve.Evaluate(rigidbody.velocity.magnitude / specs.maxSpeed);
         if (acceleration > 0)
         {
-            var velocityChange = transform.forward * input.vertical * acceleration * deltaTime;
-            rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+            var velocityChange = input.vertical * acceleration * deltaTime;
+            var velocity = transform.InverseTransformVector(rigidbody.velocity).z + velocityChange;
+            //rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+            rigidbody.velocity = transform.forward * velocity;
         }
     }
 
@@ -104,6 +141,7 @@ public class OwnCarPhysics : MonoBehaviour
         var point = transform.TransformPoint(dir * lineLenth);
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, point);
+        lineRenderer.material.color = !input.breaking ? Color.blue : Color.red;
     }
 
     private void RotateWheel(float deltaTime)

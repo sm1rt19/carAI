@@ -12,10 +12,14 @@ public class OwnCarSpecs : MonoBehaviour
     public float maxSpeed;
     public float acceleration;
 
+    [Header("Break")]
+    public float breakingAcceleration;
+
     [Header("Steering")]
     public float maxSteerAngle;
     public float steeringRate;
     public float maxSteerAcceleration;
+    public AnimationCurve steeringCurve;
 
     [Header("Friction")]
     public float forwardFriction;

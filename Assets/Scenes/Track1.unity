@@ -700,8 +700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: "\x01"
 --- !u!4 &45765795
 Transform:
   m_ObjectHideFlags: 0
@@ -1327,8 +1325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &124859487
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,8 +3394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1001 &349626353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5118,8 +5112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &548830779
 GameObject:
   m_ObjectHideFlags: 0
@@ -7567,7 +7559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &829584552
 Transform:
   m_ObjectHideFlags: 0
@@ -8915,8 +8907,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: "\x01"
 --- !u!1 &1028057948
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,8 +9207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &1067319323
 GameObject:
   m_ObjectHideFlags: 0
@@ -11305,8 +11293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &1276735063
 GameObject:
   m_ObjectHideFlags: 0
@@ -11930,8 +11916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &1338204266
 GameObject:
   m_ObjectHideFlags: 0
@@ -13139,8 +13123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1001 &1500707782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13776,8 +13758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: 
 --- !u!1 &1608397256
 GameObject:
   m_ObjectHideFlags: 0
@@ -14354,8 +14334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac844047b5e1f742a053d9e3856b2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
-  bools: "\x01"
 --- !u!1 &1686371222
 GameObject:
   m_ObjectHideFlags: 0
