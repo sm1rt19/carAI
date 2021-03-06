@@ -25,4 +25,14 @@ public class OwnCarSpecs : MonoBehaviour
     public float forwardFriction;
     public float sidewaysFriction;
     public float rotationalFriction;
+
+    [Header("Carsten's Specs")]
+    public Vector3 gravity;
+    [Range(0f, 1f)]
+    public float limitBySpeed = 0.5f;
+    public float maxMotorForce;
+    public float airResistanceCoefficient;
+    public float rollingResistanceCoefficient;
+    public float staticFrictionCoefficient;
+    public float dynamicFrictionCoefficient;
 }
