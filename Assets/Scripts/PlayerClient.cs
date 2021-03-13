@@ -19,9 +19,9 @@ public class PlayerClient : MonoBehaviour
     {
         CarController.controllerInput = new CarControllerInput
         {
-            vertical = Input.GetAxis("PC Vertical"),
-            horizontal = Input.GetAxis("PC Horizontal"),
-            breaking = Input.GetButton("PC Space")
+            vertical = Input.GetAxis("Vertical"),
+            horizontal = Input.GetAxis("Horizontal"),
+            breaking = Input.GetKey(KeyCode.Space)
         };
     }
 }

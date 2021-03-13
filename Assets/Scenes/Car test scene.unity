@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4497347, g: 0.49980032, b: 0.5756272, a: 1}
+  m_IndirectSpecularColor: {r: 0.449735, g: 0.49980092, b: 0.575628, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1357,7 +1357,7 @@ MonoBehaviour:
   sidewaysFriction: 150
   rotationalFriction: 2
   gravity: {x: 0, y: -9.81, z: 0}
-  limitBySpeed: 0.5
+  limitBySpeed: 0.85
   maxMotorForce: 10000
   airResistanceCoefficient: 0.5
   rollingResistanceCoefficient: 0.01
@@ -1405,7 +1405,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379544723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -41.32, y: 0.025, z: -16.4}
+  m_LocalPosition: {x: -41.32, y: 0.025, z: -9.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1052443563}
@@ -1528,7 +1528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1551050262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1541,12 +1541,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4009298e11df840974dc942512be36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cars:
-  - {fileID: 1379544727}
-  autoSimulate: 1
+  onPhysicsStep:
+    m_PersistentCalls:
+      m_Calls: []
+  actualFps: 0
+  paused: 0
+  updateRate: 50
+  defaultFps: 100
   simulationSpeed: 1
-  Fps: 200
-  FramesPerClick: 1000
 --- !u!4 &1551050263
 Transform:
   m_ObjectHideFlags: 0

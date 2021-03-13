@@ -22,14 +22,21 @@ public class SensorData : MonoBehaviour
         {
             beam.SetBeamMaxDistance(beamMaxDistance);
         }
+        PhysicsSimulator.instance.onPrePhysicsStep.AddListener(MeasureBeams);
     }
 
     // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        for(var i = 0; i< beams.Length; i++)
+        PhysicsSimulator.instance.onPrePhysicsStep.RemoveListener(MeasureBeams);
+    }
+
+    private void MeasureBeams(float deltaTime)
+    {
+        for (var i = 0; i < beams.Length; i++)
         {
-            beamDistances[i] = beams[i].Measure();
+            if (beams[i].gameObject.activeSelf)
+                beamDistances[i] = beams[i].Measure();
         }
     }
 }

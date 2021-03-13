@@ -42,15 +42,17 @@ public class OwnCarPhysics : MonoBehaviour
         wheelPosDict[WheelRL] = WheelRL.position;
         wheelPosDict[WheelRR] = WheelRR.position;
         lineRenderer = GetComponent<LineRenderer>();
+        PhysicsSimulator.instance.onPhysicsStep.AddListener(PhysicsStep);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         ShowControls();
-        if (Physics.autoSimulation)
-        {
-            PhysicsStep(Time.deltaTime);
-        }
+    }
+
+    void OnDestroy()
+    {
+        PhysicsSimulator.instance.onPhysicsStep.RemoveListener(PhysicsStep);
     }
 
     public void PhysicsStep(float deltaTime)

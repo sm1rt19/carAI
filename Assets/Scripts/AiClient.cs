@@ -24,6 +24,7 @@ public class AiClient : MonoBehaviour
     void Start()
     {
         carController = GetComponent<CarControllerBase>();
+        PhysicsSimulator.instance.onPrePhysicsStep.AddListener(UpdateAiControls);
     }
 
     private void EnableSpeedCheck()
@@ -31,8 +32,13 @@ public class AiClient : MonoBehaviour
         checkSpeed = true;
     }
 
+    void OnDestroy()
+    {
+        PhysicsSimulator.instance.onPrePhysicsStep.RemoveListener(UpdateAiControls);
+    }
+
     // Update is called once per frame
-    void FixedUpdate()
+    void UpdateAiControls(float deltaTime)
     {
         if (network != null)
         {
@@ -101,7 +107,10 @@ public class AiClient : MonoBehaviour
             //inputs = new float[sensorData.beamDistances.Length + 1];
             for (int i = 0; i < inputs.Length - 1; i++)
             {
-                inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
+                if (i >= sensorData.beamDistances.Length)
+                    inputs[i] = 0; 
+                else
+                    inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
             inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
         }
@@ -109,7 +118,10 @@ public class AiClient : MonoBehaviour
         {
             for (int i = 0; i < inputs.Length - 2; i++)
             {
-                inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
+                if (i >= sensorData.beamDistances.Length)
+                    inputs[i] = 0;
+                else
+                    inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
             inputs[inputs.Length - 2] = carData.rotation / carStats.maxRotation;
             inputs[inputs.Length - 1] = carData.speed / carStats.maxSpeed;
@@ -120,7 +132,10 @@ public class AiClient : MonoBehaviour
             //inputs = new float[sensorData.beamDistances.Length + 2];
             for (int i = 0; i < inputs.Length - 3; i++)
             {
-                inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
+                if (i >= sensorData.beamDistances.Length)
+                    inputs[i] = 0;
+                else
+                    inputs[i] = sensorData.beamDistances[i] / sensorData.beamMaxDistance;
             }
             inputs[inputs.Length - 3] = carData.rotation;
             inputs[inputs.Length - 2] = carData.rotation;

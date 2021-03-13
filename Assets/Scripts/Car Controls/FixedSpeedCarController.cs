@@ -5,14 +5,24 @@ using UnityEngine;
 
 public class FixedSpeedCarController : CarControllerBase 
 {
-    void FixedUpdate()
+    void Start()
+    {
+        PhysicsSimulator.instance.onPhysicsStep.AddListener(PhysicsStep);
+    }
+
+    void OnDestroy()
+    {
+        PhysicsSimulator.instance.onPhysicsStep.RemoveListener(PhysicsStep);
+    }
+
+    void PhysicsStep(float deltaTime)
     {
         float targetRotation = controllerInput.horizontal * carStats.maxRotation;
-        float deltaRotation = carStats.rateRotation * Time.deltaTime;
+        float deltaRotation = carStats.rateRotation * deltaTime;
         carData.rotation = Utilities.Step(carData.rotation, targetRotation, deltaRotation);
 
         transform.Rotate(new Vector3(0, carData.rotation, 0));
-        var distance = carStats.maxSpeed * Time.deltaTime;
+        var distance = carStats.maxSpeed * deltaTime;
         transform.Translate(Vector3.forward * distance, Space.Self);
         carData.distanceDriven += distance;
     }

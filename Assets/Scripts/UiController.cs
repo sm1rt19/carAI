@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -19,6 +20,9 @@ public class UiController : MonoBehaviour
     public Text ImprovementText;
     public Text NumberOfCarsText;
 
+    private float[] speedSettings = new[] { 0.5f, 1, 2, 5, 20, 1000 };
+    private int speedSettingIndex = 1;
+
     private float lastScore = 0f;
     //private float? lastScore;
 
@@ -34,6 +38,7 @@ public class UiController : MonoBehaviour
         {
             TrainingPanel.SetActive(SceneSettings.isTraining);
         }
+        GameSpeedText.text = $"X1";
     }
 
     public void OnSettingsClick()
@@ -43,43 +48,27 @@ public class UiController : MonoBehaviour
 
     public void OnFasterClick()
     {
-        switch (Time.timeScale)
+        if (speedSettingIndex < speedSettings.Length - 1)
         {
-            case 0.5f:
-                Time.timeScale = 1;
-                GameSpeedText.text = "X1";
-                SlowerButton.enabled = true;
-                break;
-            case 1f:
-                Time.timeScale = 2;
-                GameSpeedText.text = "X2";
-                break;
-            case 2f:
-                Time.timeScale = 5;
-                GameSpeedText.text = "X5";
-                FasterButton.enabled = false;
-                break;
+            speedSettingIndex++;
+            var speedSetting = speedSettings[speedSettingIndex];
+            GameSpeedText.text = $"X{speedSetting}";
+            SlowerButton.enabled = speedSettingIndex > 0;
+            FasterButton.enabled = speedSettingIndex < speedSettings.Length - 1;
+            PhysicsSimulator.instance.simulationSpeed = speedSetting;
         }
     }
 
     public void OnSlowerClick()
     {
-        switch (Time.timeScale)
+        if (speedSettingIndex > 0)
         {
-            case 1f:
-                Time.timeScale = 0.5f;
-                GameSpeedText.text = "X0.5";
-                SlowerButton.enabled = false;
-                break;
-            case 2f:
-                Time.timeScale = 1;
-                GameSpeedText.text = "X1";
-                break;
-            case 5f:
-                Time.timeScale = 2;
-                GameSpeedText.text = "X2";
-                FasterButton.enabled = true;
-                break;
+            speedSettingIndex--;
+            var speedSetting = speedSettings[speedSettingIndex];
+            GameSpeedText.text = $"X{speedSetting}";
+            SlowerButton.enabled = speedSettingIndex > 0;
+            FasterButton.enabled = speedSettingIndex < speedSettings.Length - 1;
+            PhysicsSimulator.instance.simulationSpeed = speedSetting;
         }
     }
 
